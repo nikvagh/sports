@@ -18,7 +18,7 @@ if (!function_exists('curr_datetime')) {
 if (!function_exists('admin')) {
     function admin()
     {
-        return 'admin';
+        return config('constant.admin');
     }
 }
 
@@ -90,13 +90,6 @@ if (!function_exists('radius_distance')) {
                 return $miles;
             }
         }
-    }
-}
-
-if (!function_exists('admin')) {
-    function admin()
-    {
-        return 'admin';
     }
 }
 

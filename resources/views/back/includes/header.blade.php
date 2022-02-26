@@ -24,7 +24,7 @@
             </li>
         </ul>
         <ul class="navbar-nav ml-auto">
-            <li>
+            <!-- <li>
                 <div class="dropdown">
                     <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="icon feather icon-bell"></i></a>
                     <div class="dropdown-menu dropdown-menu-right notification">
@@ -84,7 +84,7 @@
                         </div>
                     </div>
                 </div>
-            </li>
+            </li> -->
             <li>
                 <div class="dropdown drp-user">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -93,15 +93,17 @@
                     <div class="dropdown-menu dropdown-menu-right profile-notification">
                         <div class="pro-head">
                             <img src="{{ back_asset('images/user/avatar-1.jpg') }}" class="img-radius" alt="User-Profile-Image">
-                            <span>John Doe</span>
-                            <a href="auth-signin.html" class="dud-logout" title="Logout">
+                            <span class="text-capitalize">{{ auth()->user()->name }}</span>
+                            <a href="{{ route('logout') }}" class="dud-logout" title="Logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 <i class="feather icon-log-out"></i>
                             </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
                         </div>
                         <ul class="pro-body">
-                            <li><a href="user-profile.html" class="dropdown-item"><i class="feather icon-user"></i> Profile</a></li>
-                            <li><a href="email_inbox.html" class="dropdown-item"><i class="feather icon-mail"></i> My Messages</a></li>
-                            <li><a href="auth-signin.html" class="dropdown-item"><i class="feather icon-lock"></i> Lock Screen</a></li>
+                            <li><a href="{{ url(admin().'/edit-profile') }}" class="dropdown-item"><i class="feather icon-user"></i> Profile</a></li>
+                            <li><a href="{{ url(admin().'/change-password') }}" class="dropdown-item"><i class="feather icon-lock"></i> Change Password</a></li>
                         </ul>
                     </div>
                 </div>

@@ -3,83 +3,102 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\Game;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+    public function __construct()
+    {
+        $this->titles = Event::titles();
+    }
+
     public function index()
     {
-        //
+        $result['titles'] = $this->titles;
+        return view(backView().'.'.$this->titles->viewNamePrefix)->with($result);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        $result['titles'] = $this->titles;
+        $result['games'] = Game::all();
+        return view(backView().'.'.$this->titles->viewNamePrefix.'_add')->with($result);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $game = Game::findOrFail($request->game);
+
+        $event = new Event;
+        $event->name = $request->name;
+
+        $game->events()->save($event);
+
+        $flash_s = 'Data saved successfully!';
+        session()->flash('flash_s',$flash_s); 
+        return response()->json(['status' => 200, 'title' => $flash_s, 'result'=>['next'=>url(admin().'/'.$this->titles->viewPathPrefix)]]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Event  $event
-     * @return \Illuminate\Http\Response
-     */
     public function show(Event $event)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Event  $event
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Event $event)
     {
-        //
+        $result['titles'] = $this->titles;
+        $result['row'] = $event;
+        $result['games'] = Game::all();
+        return view(backView().'.'.$this->titles->viewNamePrefix.'_edit')->with($result);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Event  $event
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Event $event)
     {
-        //
+        $event->game_id = $request->game;
+        $event->name = $request->name;
+        $event->save();
+        
+        $flash_s = 'Data saved successfully!';
+        session()->flash('flash_s',$flash_s); 
+        return response()->json(['status' => 200, 'title' => $flash_s, 'result'=>['next'=>url(admin().'/'.$this->titles->viewPathPrefix)]]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Event  $event
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Event $event)
     {
-        //
+        $event = Event::findOrFail($event->id);
+        $event->delete();
+        $flash_s = 'Data deleted successfully!';
+        return response()->json(['status' => 200, 'title' => $flash_s]);
     }
+
+    public function validation(Request $request)
+    {
+        $validator = Validator::make(request()->all(), [
+            'game' => 'required',
+            'name' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['status' => 400, 'title' => 'Errors', 'result' => $validator->errors()->all()]);
+        } else {
+            return response()->json(['status' => 200]);
+        }
+    }
+
+    public function list_data()
+    {
+        $data = Event::with('game')->get()->all();
+
+        // echo "<pre>";print_r($data);
+        // exit;
+        
+        return datatables($data)
+            ->addColumn('action', function ($row) {
+                return '<a class="btn btn-sm btn-info" href="'.$this->titles->viewPathPrefix.'/'.$row->id.'/edit/"><i class="feather icon-edit"></i> Edit</a>
+                        <a oncLick="confirmDelete('.$row->id.',\'Event\')" class="btn btn-sm btn-danger" href="javascript:void(0);"><i class="feather icon-trash-2"></i> Delete</a>';
+            })->make();
+    }
+
 }
