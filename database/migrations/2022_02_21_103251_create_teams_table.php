@@ -17,7 +17,7 @@ class CreateTeamsTable extends Migration
             $table->id();
             $table->integer('event_id');
             $table->string('name');
-            $table->text('logo');
+            $table->text('logo')->nullable();
             $table->float('points')->default(0);
             $table->timestamps();
             $table->softDeletes();

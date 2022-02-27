@@ -27,3 +27,17 @@
 .select2-container--default .select2-selection--single .select2-selection__arrow{
     height: 41px!important;
 }
+
+.select2-container .select2-selection--multiple{
+    min-height: 41px!important;
+}
+.select2-container--default .select2-selection--multiple{
+    border-radius: 0px!important;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice{
+    background-color: #4680ff!important;
+    border: 1px solid #4680ff!important;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove{
+    color: #fff!important;
+}

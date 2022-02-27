@@ -8,7 +8,7 @@
 
     <div class="card">
       <div class="card-header">
-        <h5>New {{ (isset($titles->titleSingular)) ? $titles->titleSingular : '' }}</h5>
+        <h5>Edit {{ (isset($titles->titleSingular)) ? $titles->titleSingular : '' }}</h5>
       </div>
       <div class="card-body">
         <form id="form">

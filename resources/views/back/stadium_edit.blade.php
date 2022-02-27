@@ -20,23 +20,49 @@
           @csrf
 
           <div class="row">
+
             <div class="col-sm-6">
               <div class="form-group mb-3">
-                <label>Game *</label>
-                <select class="game form-control" name="game" id="game" width="50%">
-                  <option value="">Select Game</option>
+                <label>Event *</label>
+                <select class="select2 form-control" name="event">
+                  <option value="">Select Event</option>
                   @foreach($games as $key=>$val)
-                  <option value="{{ $val->id }}" {{ ($val->id == $row->game_id) ? 'selected' : '' }}>{{ $val->name }}</option>
+                  @if($val->events->count() > 0)
+                  <optgroup label="{{ $val->name }}">
+                    @foreach($val->events as $key1=>$val1)
+                    <option value="{{ $val1->id }}" {{ ($val1->id == $row->event_id) ? 'selected' : '' }}>{{ $val1->name }}</option>
+                    @endforeach
+                  </optgroup>
+                  @endif
                   @endforeach
                 </select>
               </div>
             </div>
+
             <div class="col-sm-6">
               <div class="form-group mb-3">
                 <label>Name *</label>
                 <input type="text" class="form-control" name="name" value="{{ $row->name }}">
               </div>
             </div>
+
+            <div class="col-sm-6">
+              <div class="row">
+                <div class="col-sm-10">
+                  <label>Profile </label>
+                  <div class="input-group mb-3">
+                    <div class="custom-file">
+                      <input type="file" class="custom-file-input" name="profile" id="profile" accept="image/*"  onchange="document.getElementById('profile_img').src = window.URL.createObjectURL(this.files[0])">
+                      <label class="custom-file-label" for="profile">Choose file</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-2 d-flex align-items-center">
+                  <img src="{{ ($row->imageUrl !='') ? $row->imageUrl : url(back_asset('images/no-img.png')) }}" alt="" class="img-fluid" id="profile_img">
+                </div>
+              </div>
+            </div>
+
           </div>
           
         </form>
@@ -53,7 +79,7 @@
 
 @section('js')
 <script src="{{ back_asset('js/custom/custom.js') }}"></script>
-<script src="{{ back_asset('js/custom/events.js') }}"></script>
+<script src="{{ back_asset('js/custom/stadiums.js') }}"></script>
 
 <!-- select2 Js -->
 <script src="{{ back_asset('js/plugins/select2.full.min.js') }}"></script>

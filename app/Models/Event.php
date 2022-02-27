@@ -23,4 +23,14 @@ class Event extends Model
     {
         return $this->belongsTo(Game::class);
     }
+
+    public function teams()
+    {
+        return $this->hasMany(Team::class);
+    }
+
+    public function stadiums()
+    {
+        return $this->hasMany(Stadium::class);
+    }
 }

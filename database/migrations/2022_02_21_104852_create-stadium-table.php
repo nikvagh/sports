@@ -17,6 +17,7 @@ class CreateStadiumTable extends Migration
             $table->id();
             $table->integer('event_id');
             $table->string('name');
+            $table->text('image')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

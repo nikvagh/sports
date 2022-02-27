@@ -24,6 +24,11 @@
                 </li>
                 <li class="nav-item"><a href="{{ url(admin().'/games') }}" class="nav-link "><span class="pcoded-micon"><i class="fas fa-baseball-ball"></i></span><span class="pcoded-mtext">Games</span></a></li>
                 <li class="nav-item"><a href="{{ url(admin().'/events') }}" class="nav-link "><span class="pcoded-micon"><i class="fas fa-trophy"></i></span><span class="pcoded-mtext">Events</span></a></li>
+                <li class="nav-item"><a href="{{ url(admin().'/teams') }}" class="nav-link "><span class="pcoded-micon"><i class="fas fa-users"></i></span><span class="pcoded-mtext">Teams</span></a></li>
+                <li class="nav-item"><a href="{{ url(admin().'/players') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-users"></i></span><span class="pcoded-mtext">Players</span></a></li>
+                <li class="nav-item"><a href="{{ url(admin().'/stadiums') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-map-pin"></i></span><span class="pcoded-mtext">Stadiums</span></a></li>
+                <li class="nav-item"><a href="{{ url(admin().'/matches') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-minimize-2"></i></span><span class="pcoded-mtext">Matches</span></a></li>
+            
             </ul>
 
         </div>
