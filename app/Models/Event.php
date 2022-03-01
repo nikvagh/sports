@@ -33,4 +33,9 @@ class Event extends Model
     {
         return $this->hasMany(Stadium::class);
     }
+
+    public function eventWallpapers()
+    {
+        return $this->hasMany(EventWallpaper::class);
+    }
 }

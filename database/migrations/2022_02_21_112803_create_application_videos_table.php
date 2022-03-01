@@ -15,7 +15,7 @@ class CreateApplicationVideosTable extends Migration
     {
         Schema::create('application_videos', function (Blueprint $table) {
             $table->id();
-            $table->integer('app_id');
+            $table->integer('application_id');
             $table->text('video');
             $table->timestamps();
             $table->softDeletes();

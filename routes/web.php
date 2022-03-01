@@ -86,5 +86,25 @@ Route::group(['middleware' => 'auth','prefix' => admin()], function ($router) {
     Route::get('matches/{match}/editHighlight', [App\Http\Controllers\MatchController::class,'editHighlight']);
     Route::post('matches/validationHighlight', [App\Http\Controllers\MatchController::class,'validationHighlight']);
     Route::post('matches/{match}/updateHighlight', [App\Http\Controllers\MatchController::class,'updateHighlight']);
+
+    Route::get('eventAwards/list_data', [App\Http\Controllers\EventAwardController::class, 'list_data']);
+    Route::post('eventAwards/validation', [App\Http\Controllers\EventAwardController::class,'validation']);
+    Route::resource('eventAwards', App\Http\Controllers\EventAwardController::class);
+
+    Route::get('eventWallpapers/list_data', [App\Http\Controllers\eventWallpaperController::class, 'list_data']);
+    Route::post('eventWallpapers/validation', [App\Http\Controllers\eventWallpaperController::class,'validation']);
+    Route::resource('eventWallpapers', App\Http\Controllers\eventWallpaperController::class);
+
+    Route::get('applications/list_data', [App\Http\Controllers\ApplicationController::class, 'list_data']);
+    Route::post('applications/validation', [App\Http\Controllers\ApplicationController::class,'validation']);
+    Route::resource('applications', App\Http\Controllers\ApplicationController::class);
+
+    Route::get('applicationWallpapers/list_data', [App\Http\Controllers\ApplicationWallpaperController::class, 'list_data']);
+    Route::post('applicationWallpapers/validation', [App\Http\Controllers\ApplicationWallpaperController::class,'validation']);
+    Route::resource('applicationWallpapers', App\Http\Controllers\ApplicationWallpaperController::class);
+
+    Route::get('applicationVideos/list_data', [App\Http\Controllers\ApplicationVideoController::class, 'list_data']);
+    Route::post('applicationVideos/validation', [App\Http\Controllers\ApplicationVideoController::class,'validation']);
+    Route::resource('applicationVideos', App\Http\Controllers\ApplicationVideoController::class);
 });
 

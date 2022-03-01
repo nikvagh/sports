@@ -28,7 +28,12 @@
                 <li class="nav-item"><a href="{{ url(admin().'/players') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-users"></i></span><span class="pcoded-mtext">Players</span></a></li>
                 <li class="nav-item"><a href="{{ url(admin().'/stadiums') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-map-pin"></i></span><span class="pcoded-mtext">Stadiums</span></a></li>
                 <li class="nav-item"><a href="{{ url(admin().'/matches') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-minimize-2"></i></span><span class="pcoded-mtext">Matches</span></a></li>
-            
+                <li class="nav-item"><a href="{{ url(admin().'/eventAwards') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-award"></i></span><span class="pcoded-mtext">Awards</span></a></li>
+                <li class="nav-item"><a href="{{ url(admin().'/eventWallpapers') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-image"></i></span><span class="pcoded-mtext">Wallpapers</span></a></li>
+                <li class="nav-item"><a href="{{ url(admin().'/applications') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-smartphone"></i></span><span class="pcoded-mtext">Applications</span></a></li>
+                <li class="nav-item"><a href="{{ url(admin().'/applicationWallpapers') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-smartphone"></i></span><span class="pcoded-mtext">Application Wallpaper</span></a></li>
+                <li class="nav-item"><a href="{{ url(admin().'/applicationVideos') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-smartphone"></i></span><span class="pcoded-mtext">Application Videos</span></a></li>
+                
             </ul>
 
         </div>

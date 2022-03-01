@@ -55,5 +55,10 @@ class Team extends Model
     {
         return $this->hasMany(Matches::class,'team_id_2','id');
     }
+
+    public function eventAwards()
+    {
+        return $this->morphMany(EventAward::class, 'event_awardable');
+    }
     
 }

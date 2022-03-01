@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\File;
 
 class TeamController extends Controller
 {
-
     public function __construct()
     {
         $this->titles = Team::titles();

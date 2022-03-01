@@ -35,4 +35,14 @@ class Player extends Model
         return $url;
     }
 
+    public function teamPlayers()
+    {
+        return $this->hasMany(TeamPlayer::class);
+    }
+
+    public function eventAwards()
+    {
+        return $this->morphMany(EventAward::class, 'event_awardable');
+    }
+
 }

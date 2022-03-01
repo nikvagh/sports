@@ -15,7 +15,7 @@ class CreateApplicationWallpapersTable extends Migration
     {
         Schema::create('application_wallpapers', function (Blueprint $table) {
             $table->id();
-            $table->integer('app_id');
+            $table->integer('application_id');
             $table->text('wallpaper');
             $table->timestamps();
             $table->softDeletes();

@@ -3,83 +3,94 @@
 namespace App\Http\Controllers;
 
 use App\Models\Application;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class ApplicationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->titles = Application::titles();
+    }
+
     public function index()
     {
-        //
+        $result['titles'] = $this->titles;
+        return view(backView() . '.' . $this->titles->viewNamePrefix)->with($result);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        $result['titles'] = $this->titles;
+        return view(backView() . '.' . $this->titles->viewNamePrefix . '_add')->with($result);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        extract(request()->all());
+
+        $application = new Application;
+        $application->name = $request->name;
+
+        $application->save();
+
+        $flash_s = 'Data saved successfully!';
+        session()->flash('flash_s', $flash_s);
+        return response()->json(['status' => 200, 'title' => $flash_s, 'result' => ['next' => url(admin() . '/' . $this->titles->viewPathPrefix)]]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Application  $application
-     * @return \Illuminate\Http\Response
-     */
     public function show(Application $application)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Application  $application
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Application $application)
     {
-        //
+        $result['titles'] = $this->titles;
+        $result['row'] = $application;
+        return view(backView() . '.' . $this->titles->viewNamePrefix . '_edit')->with($result);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Application  $application
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Application $application)
     {
-        //
+        extract(request()->all());
+
+        $application->name = $request->name;
+        $application->save();
+
+        $flash_s = 'Data saved successfully!';
+        session()->flash('flash_s', $flash_s);
+        return response()->json(['status' => 200, 'title' => $flash_s, 'result' => ['next' => url(admin() . '/' . $this->titles->viewPathPrefix)]]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Application  $application
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Application $application)
     {
-        //
+        $application->delete();
+        $flash_s = 'Data deleted successfully!';
+        return response()->json(['status' => 200, 'title' => $flash_s]);
+    }
+
+    public function validation(Request $request)
+    {
+        $validator = Validator::make(request()->all(), [
+            'name' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['status' => 400, 'title' => 'Errors', 'result' => $validator->errors()->all()]);
+        } else {
+            return response()->json(['status' => 200]);
+        }
+    }
+
+    public function list_data()
+    {
+        $data = Application::get()->all();
+
+        return datatables($data)
+            ->addColumn('action', function ($row) {
+                return '<a class="btn btn-sm btn-info" href="' . $this->titles->viewPathPrefix . '/' . $row->id . '/edit/"><i class="feather icon-edit"></i> Edit</a>
+                        <a oncLick="confirmDelete(' . $row->id . ',\'Application\')" class="btn btn-sm btn-danger" href="javascript:void(0);"><i class="feather icon-trash-2"></i> Delete</a>';
+            })->make();
     }
 }
