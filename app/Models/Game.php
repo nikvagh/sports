@@ -25,4 +25,9 @@ class Game extends Model
     {
         return $this->hasMany(Event::class);
     }
+
+    public function playerRoles()
+    {
+        return $this->hasMany(PlayerRole::class);
+    }
 }

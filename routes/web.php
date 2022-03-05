@@ -37,11 +37,12 @@ Route::get('/route_clear', function() {
 Route::get('/config_cache', function() {
     Artisan::call('config:cache');
 });
-
-
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/storage_link', function() {
+    Artisan::call('storage:link');
 });
+
+
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
 
 Auth::routes();
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -106,5 +107,12 @@ Route::group(['middleware' => 'auth','prefix' => admin()], function ($router) {
     Route::get('applicationVideos/list_data', [App\Http\Controllers\ApplicationVideoController::class, 'list_data']);
     Route::post('applicationVideos/validation', [App\Http\Controllers\ApplicationVideoController::class,'validation']);
     Route::resource('applicationVideos', App\Http\Controllers\ApplicationVideoController::class);
-});
 
+    Route::get('eventWinners/list_data', [App\Http\Controllers\eventWinnerController::class, 'list_data']);
+    Route::post('eventWinners/validation', [App\Http\Controllers\eventWinnerController::class,'validation']);
+    Route::resource('eventWinners', App\Http\Controllers\eventWinnerController::class);
+
+    Route::get('playerRoles/list_data', [App\Http\Controllers\PlayerRoleController::class, 'list_data']);
+    Route::post('playerRoles/validation', [App\Http\Controllers\PlayerRoleController::class,'validation']);
+    Route::resource('playerRoles', App\Http\Controllers\PlayerRoleController::class);
+});
