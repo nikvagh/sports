@@ -1,49 +1,49 @@
 
 
-  const MODEL = 'eventWinners'; 
+  const MODEL = 'eventTeamPlayers'; 
   var dtTable1;
   const list = () => {
     dtTable1 = $('#dtTable1').DataTable({
+      // bStateSave: true,
+      // "fnStateSave": function (oSettings, oData) {
+      //   localStorage.setItem('offersDataTables', JSON.stringify(oData));
+      // },
+      // "fnStateLoad": function (oSettings) {
+      //     return JSON.parse(localStorage.getItem('offersDataTables'));
+      // },
+      // responsive: {
+      //   details: {
+      //     type: 'column'
+      //   }
+      // },
       "order": [0, "desc"],
       processing: true,
       serverSide: true,
-      ajax: {
-        url:MODEL+'/list_data',
-        // columnDefs: [{
-        //     className: 'dtr-control',
-        //     orderable: false,
-        //     targets:   0
-        // }],
-        // data: function (d) {
-        //   d.game = $("#game").val();
-        //   d.event = $("#event").val();
-        // },
-      },
+      ajax: MODEL+'/list_data',
+      // ajax: 'list_data',
+      // columnDefs: [{
+      //     className: 'dtr-control',
+      //     orderable: false,
+      //     targets:   0
+      // }],
       columns: [
+        // { data: 'DT_RowIndex', orderable: false, searchable: false},
         {
           data: 'id',
           name: 'id'
         },
         {
           "render": function (data, type, row, meta) {
-            return '<img src="'+row.imageUrl+'" width="80"/>';
+            return '<img src="'+row.player.profileUrl+'" width="80"/>';
           },
           "orderable": false,
           "searchable": false,
-          data:'image',
-          name: 'image'
+          data:'player.profile',
+          name: 'player.profile'
         },
         {
-          data: 'team.name',
-          name: 'team.name'
-        },
-        {
-          data: 'year',
-          name: 'year'
-        },
-        {
-          data: 'event.name',
-          name: 'event.name'
+          data: 'player.name',
+          name: 'player.name'
         },
         {
           data: "action"
@@ -54,7 +54,9 @@
 
   const validation = (formData) => {
     $(".validation-popup").css('display','none');
-    var call = ajaxCall('/'+ADMIN+'/'+MODEL+'/validation', 'post', 'json', formData, []);
+    let event_id = $("#event_id").val();
+    let event_team_id = $("#event_team_id").val();
+    var call = ajaxCall('/'+ADMIN+'/events/'+event_id+'/eventTeams/'+event_team_id+'/'+MODEL+'/validation', 'post', 'json', formData, []);
     userAuth(call);
     if (call.status == 200) {
       let response = call.responseJSON;
@@ -76,11 +78,14 @@
 
   const store = () => {
     btn_disable(true,'save_btn','validating, Please Wait...');
+    let event_id = $("#event_id").val();
+    let event_team_id = $("#event_team_id").val();
     var formData = new FormData(document.getElementById('form'));
-    formData.append('action','create');
     if (validation(formData)) {
       btn_disable(true,'save_btn','saving, Please Wait...');
-      var call = ajaxCall('/'+ADMIN+'/'+MODEL, 'post', 'json', formData, []);
+      
+      var call = ajaxCall('/'+ADMIN+'/events/'+event_id+'/eventTeams/'+event_team_id+'/'+MODEL, 'post', 'json', formData, []);
+      // var call = ajaxCall('/'+ADMIN+'/events/'+event_id+'/'+MODEL, 'post', 'json', formData, []);
       userAuth(call);
       if (call.status == 200) {
         let response = call.responseJSON;
@@ -93,16 +98,16 @@
   }
 
   const update = (id) => {
-    
     btn_disable(true,'save_btn','validating, Please Wait...');
+    let event_id = $("#event_id").val();
+    let event_team_id = $("#event_team_id").val();
     var formData1 = new FormData(document.getElementById('form'));
-    formData1.append('action','update');
     if (validation(formData1)) {
       btn_disable(true,'save_btn','saving, Please Wait...');
       var formData2 = formData1;
       formData2.append('_method','PUT');
       
-      var call = ajaxCall('/'+ADMIN+'/'+MODEL+'/'+id, 'post', 'json', formData2, []);
+      var call = ajaxCall('/'+ADMIN+'/events/'+event_id+'/eventTeams/'+event_team_id+'/'+MODEL+'/'+id, 'post', 'json', formData2, []);
       userAuth(call);
       if (call.status == 200) {
         let response = call.responseJSON;
@@ -112,9 +117,17 @@
     }
   }
 
-  const deleteRow = (id) => {
+  const deleteRow = (ids) => {
+    ids = ids.toString();
+    console.log(ids);
+    // return false;
+    
+    let idsAry = ids.split('_');
+    let event_id = idsAry[0];
+    let event_team_id = idsAry[1];
+    let id = idsAry[2];
     var formData = new FormData(document.getElementById('deleteForm'));
-    var call = ajaxCall('/'+ADMIN+'/'+MODEL+'/'+id, 'post', 'json', formData, []);
+    var call = ajaxCall('/'+ADMIN+'/events/'+event_id+'/eventTeams/'+event_team_id+'/'+MODEL+'/'+id, 'post', 'json', formData, []);
     userAuth(call);
     if (call.status == 200) {
       $('#confirm_model').modal('hide');

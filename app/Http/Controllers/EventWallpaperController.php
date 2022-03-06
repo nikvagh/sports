@@ -102,11 +102,10 @@ class eventWallpaperController extends Controller
     {
         $validationData = [
             'event' => 'required',
-            'wallpaper' => 'required',
         ];
-        // if(request()->action == 'update'){
-        //     $validationData['wallpaper'] = 'required';
-        // }
+        if(request()->action == 'create'){
+            $validationData['wallpaper'] = 'required';
+        }
 
         $validator = Validator::make(request()->all(), $validationData);
         if ($validator->fails()) {

@@ -4,9 +4,11 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Event;
+use App\Models\EventTeam;
 use App\Models\EventWallpaper;
 use App\Models\EventWinner;
 use App\Models\Game;
+use App\Models\Highlight;
 use App\Models\Matches;
 use App\Models\Stadium;
 use App\Models\Team;
@@ -81,8 +83,8 @@ class ApiController extends Controller
         extract(request()->all());
         // curr_date();
 
-        $teams = Team::where('event_id',$event_id)->get()->all();
-        $result['teams'] = $teams;
+        $EventTeams = EventTeam::where('event_id',$event_id)->with('team')->with('eventTeamPlayers')->get()->all();
+        $result['teams'] = $EventTeams;
         return response()->json(['status' => 200, 'title' => 'success', "result" => $result]);
     }
 
@@ -117,6 +119,24 @@ class ApiController extends Controller
 
         $winners = EventWinner::where('event_id',$event_id)->with('team')->get()->all();
         $result['winners'] = $winners;
+        return response()->json(['status' => 200, 'title' => 'success', "result" => $result]);
+    }
+
+    public function highlights(){
+        $validator = Validator::make(request()->all(), [
+            'event_id' => 'required'
+        ]);
+        
+        if ($validator->fails()) {
+            return response()->json(['status' => 400, 'title' => $validator->errors()->first()]);
+        }
+
+        extract(request()->all());
+        // curr_date();
+
+        // where('event_id',$event_id)->
+        $highlights = Highlight::get()->all();
+        $result['highlights'] = $highlights;
         return response()->json(['status' => 200, 'title' => 'success', "result" => $result]);
     }
     

@@ -30,8 +30,8 @@
               <tr>
                 <!-- <th></th> -->
                 <th>Id</th>
-                <th>Title</th>
-                <th>Slug</th>
+                <th>Game</th>
+                <th>Name</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -56,7 +56,7 @@
 <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
 
 <script src="{{ back_asset('js/custom/custom.js') }}"></script>
-<script src="{{ back_asset('js/custom/eventAward.js') }}"></script>
+<script src="{{ back_asset('js/custom/events.js') }}"></script>
 
 <script>
   list();

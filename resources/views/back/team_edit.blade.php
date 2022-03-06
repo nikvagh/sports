@@ -21,7 +21,7 @@
 
           <div class="row">
 
-            <div class="col-sm-6">
+            {{-- <!-- <div class="col-sm-6">
               <div class="form-group mb-3">
                 <label>Event *</label>
                 <select class="select2 form-control" name="event">
@@ -37,7 +37,7 @@
                   @endforeach
                 </select>
               </div>
-            </div>
+            </div> --> --}}
 
             <div class="col-sm-6">
               <div class="form-group mb-3">
@@ -63,12 +63,12 @@
               </div>
             </div>
             
-            <div class="col-sm-6">
+            {{-- <!-- <div class="col-sm-6">
               <div class="form-group mb-3">
                 <label>Points *</label>
                 <input type="number" class="form-control" name="points" min="0" value="{{ $row->points }}">
               </div>
-            </div>
+            </div>  --> --}}
 
           </div>
           
@@ -86,7 +86,7 @@
 
 @section('js')
 <script src="{{ back_asset('js/custom/custom.js') }}"></script>
-<script src="{{ back_asset('js/custom/players.js') }}"></script>
+<script src="{{ back_asset('js/custom/teams.js') }}"></script>
 
 <!-- select2 Js -->
 <script src="{{ back_asset('js/plugins/select2.full.min.js') }}"></script>
@@ -94,5 +94,8 @@
 <!-- <script src="{{ back_asset('js/pages/form-select-custom.js') }}"></script> -->
 <script>
   $("#game").select2();
+
+              
+
 </script>
 @endsection

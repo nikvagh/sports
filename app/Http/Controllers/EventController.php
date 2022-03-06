@@ -97,8 +97,14 @@ class EventController extends Controller
         return datatables($data)
             ->addColumn('action', function ($row) {
                 return '<a class="btn btn-sm btn-info" href="'.$this->titles->viewPathPrefix.'/'.$row->id.'/edit/"><i class="feather icon-edit"></i> Edit</a>
-                        <a oncLick="confirmDelete('.$row->id.',\'Event\')" class="btn btn-sm btn-danger" href="javascript:void(0);"><i class="feather icon-trash-2"></i> Delete</a>';
+                        <a oncLick="confirmDelete('.$row->id.',\'Event\')" class="btn btn-sm btn-danger" href="javascript:void(0);"><i class="feather icon-trash-2"></i> Delete</a>
+                        <a class="btn btn-sm btn-dark" href="'.$this->titles->viewPathPrefix.'/'.$row->id.'/eventTeams"><i class="feather icon-users"></i> Teams</a>';
             })->make();
     }
 
+    public function eventsBYGame($game_id){
+        $events = Event::where('game_id',$game_id)->get()->all();
+        $result['events'] = $events;
+        return response()->json(['status' => 200, 'title' => 'Success', 'result' => $result]);
+    }
 }

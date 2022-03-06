@@ -29,25 +29,8 @@
           name: 'title'
         },
         {
-          "render": function (data, type, row, meta) {
-            if(row.event_awardable_type == "App\\Models\\Player"){
-              return 'Player';
-            }else if(row.event_awardable_type == "App\\Models\\Team"){
-              return 'Team';
-            }
-          },
-          //   "orderable": false,
-          //   "searchable": false,
-          data:'event_awardable_type',
-          name: 'event_awardable_type'
-        },
-        {
-          data: 'event_awardable.name',
-          name: 'event_awardable.name',
-        },
-        {
-          data: 'event.name',
-          name: 'event.name'
+          data: 'slug',
+          name: 'slug'
         },
         {
           data: "action"

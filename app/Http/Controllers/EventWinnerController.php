@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Application;
 use App\Models\EventWinner;
 use App\Models\Game;
+use App\Models\Team;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -25,8 +26,9 @@ class EventWinnerController extends Controller
     public function create()
     {
         $result['titles'] = $this->titles;
-        $result['applications'] = Application::get()->all();
+        // $result['applications'] = Application::get()->all();
         $result['games'] = Game::get()->all();
+        $result['teams'] = Team::get()->all();
         return view(backView() . '.' . $this->titles->viewNamePrefix . '_add')->with($result);
     }
 
@@ -59,8 +61,11 @@ class EventWinnerController extends Controller
     public function edit(EventWinner $eventWinner)
     {
         $result['titles'] = $this->titles;
+        $result['games'] = Game::get()->all();
+        $result['teams'] = Team::get()->all();
         $result['row'] = $eventWinner;
-        $result['applications'] = Application::get()->all();
+        $result['eventSelected'] = $eventSelected = $eventWinner->event()->first();
+        $result['gameSelected'] = $eventSelected->game()->first();
         return view(backView() . '.' . $this->titles->viewNamePrefix . '_edit')->with($result);
     }
 
@@ -68,17 +73,19 @@ class EventWinnerController extends Controller
     {
         extract(request()->all());
 
-        if($request->hasFile('wallpaper')){
-            if(File::exists(EventWinner::imageLocation().'/'.$eventWinner->wallpaper)){
-                File::delete(EventWinner::imageLocation().'/'.$eventWinner->wallpaper);
+        if($request->hasFile('image')){
+            if(File::exists(EventWinner::imageLocation().'/'.$eventWinner->image)){
+                File::delete(EventWinner::imageLocation().'/'.$eventWinner->image);
             }
 
-            $fileName = str_replace(" ","_",time().'_'.$wallpaper->getClientOriginalName());
-            $wallpaper->move(EventWinner::imageLocation(),$fileName);
-            $eventWinner->wallpaper = $fileName;
+            $fileName = str_replace(" ","_",time().'_'.$image->getClientOriginalName());
+            $image->move(EventWinner::imageLocation(),$fileName);
+            $eventWinner->image = $fileName;
         }
 
-        $eventWinner->application_id = $request->application;
+        $eventWinner->event_id = $event;
+        $eventWinner->team_id = $team;
+        $eventWinner->year = $year;
         $eventWinner->save();
 
         $flash_s = 'Data saved successfully!';
@@ -88,8 +95,8 @@ class EventWinnerController extends Controller
 
     public function destroy(EventWinner $eventWinner)
     {
-        if(File::exists(EventWinner::imageLocation().'/'.$eventWinner->wallpaper)){
-            File::delete(EventWinner::imageLocation().'/'.$eventWinner->wallpaper);
+        if(File::exists(EventWinner::imageLocation().'/'.$eventWinner->image)){
+            File::delete(EventWinner::imageLocation().'/'.$eventWinner->image);
         }
 
         $eventWinner->delete();
@@ -118,7 +125,7 @@ class EventWinnerController extends Controller
 
     public function list_data()
     {
-        $data = EventWinner::with('application')->get()->all();
+        $data = EventWinner::with('event')->with('team')->get()->all();
 
         return datatables($data)
             ->addColumn('action', function ($row) {

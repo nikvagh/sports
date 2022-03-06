@@ -19,31 +19,24 @@
         <form id="form">
           @csrf
 
-          <div class="row">
             <div class="col-sm-6">
               <div class="form-group mb-3">
-                <label>Game *</label>
-                <select class="game form-control" name="game" id="game" width="50%">
-                  <option value="">Select Game</option>
-                  @foreach($games as $key=>$val)
-                  <option value="{{ $val->id }}" {{ ($val->id == $row->game_id) ? 'selected' : '' }}>{{ $val->name }}</option>
+                <label>Team *</label>
+                <select class="team form-control" name="team" id="team">
+                  <option value="">Select Teams</option>
+                  @foreach($teams as $key=>$val)
+                  <option value="{{ $val->id }}" {{ ($row->team_id == $val->id) ? 'selected' : '' }}>{{ $val->name }}</option>
                   @endforeach
                 </select>
               </div>
             </div>
-            <div class="col-sm-6">
-              <div class="form-group mb-3">
-                <label>Name *</label>
-                <input type="text" class="form-control" name="name" value="{{ $row->name }}">
-              </div>
-            </div>
-          </div>
           
         </form>
       </div>
       <div class="card-footer">
+        <input type="hidden" name="event_id" id="event_id" value="{{ $event_id }}" />
         <button type="button" name="submit" id="submit" class="btn btn-primary" onclick="update({{ $row->id }})">Save</button>
-        <a class="btn btn-default" onclick="cancel('{{ url(admin().'/'.$titles->viewPathPrefix) }}')">Cancel</a>
+        <a class="btn btn-default" onclick="cancel('{{ url(admin().'/events/'.$event_id.'/'.$titles->viewPathPrefix) }}')">Cancel</a>
       </div>
     </div>
 
@@ -53,7 +46,7 @@
 
 @section('js')
 <script src="{{ back_asset('js/custom/custom.js') }}"></script>
-<script src="{{ back_asset('js/custom/events.js') }}"></script>
+<script src="{{ back_asset('js/custom/eventTeams.js') }}"></script>
 
 <!-- select2 Js -->
 <script src="{{ back_asset('js/plugins/select2.full.min.js') }}"></script>

@@ -32,9 +32,9 @@
                 <th>Id</th>
                 <th>Logo</th>
                 <th>Name</th>
-                <th>Point</th>
-                <th>Game</th>
-                <th>Event</th>
+                <!-- <th>Point</th> -->
+                <!-- <th>Game</th> -->
+                <!-- <th>Event</th> -->
                 <th>Action</th>
               </tr>
             </thead>

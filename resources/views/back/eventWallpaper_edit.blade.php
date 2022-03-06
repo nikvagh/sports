@@ -42,7 +42,7 @@
             <div class="col-sm-6">
               <div class="row">
                 <div class="col-sm-10">
-                  <label>Wallpaper * </label>
+                  <label>Wallpaper </label>
                   <div class="input-group mb-3">
                     <div class="custom-file">
                       <input type="file" class="custom-file-input" name="wallpaper" id="wallpaper" accept="image/*"  onchange="document.getElementById('wallpaper_img').src = window.URL.createObjectURL(this.files[0])">

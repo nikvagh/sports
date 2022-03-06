@@ -19,7 +19,8 @@
         <form id="form">
           @csrf
           <div class="row">
-            <div class="col-sm-6">
+            
+            {{-- <!-- <div class="col-sm-6">
               <div class="form-group mb-3">
                 <label>Event *</label>
                 <select class="select2 form-control" name="event">
@@ -35,7 +36,8 @@
                   @endforeach
                 </select>
               </div>
-            </div>
+            </div> --> --}}
+
             <div class="col-sm-6">
               <div class="form-group mb-3">
                 <label>Name *</label>
@@ -59,12 +61,12 @@
               </div>
             </div>
             
-            <div class="col-sm-6">
+            {{-- <!-- <div class="col-sm-6">
               <div class="form-group mb-3">
                 <label>Points *</label>
                 <input type="number" class="form-control" name="points" min="0" value="0">
               </div>
-            </div>
+            </div> --> --}}
           </div>
         </form>
       </div>

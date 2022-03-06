@@ -36,9 +36,9 @@ class Team extends Model
         return $url;
     }
 
-    public function event()
+    public function eventTeams()
     {
-        return $this->belongsTo(Event::class);
+        return $this->hasMany(EventTeam::class);
     }
 
     public function teamPlayers()

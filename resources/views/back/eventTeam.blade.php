@@ -18,7 +18,8 @@
             <h5>{{ $titles->breadCrumbTitle }} List</h5>
           </div>
           <div class="col-md-6 text-right">
-            <a href="{{ url(admin().'/'.$titles->viewPathPrefix.'/create') }}" class="btn btn-primary"><i class="feather icon-edit-1"></i> Add New {{ $titles->titleSingular }}</a>
+            <a href="{{ url(admin().'/events') }}" class="btn btn-primary"><i class="feather icon-arrow-left"></i> Back</a>
+            <a href="{{ url(admin().'/events/'.$event_id.'/'.$titles->viewPathPrefix.'/create') }}" class="btn btn-primary"><i class="feather icon-edit-1"></i> Add New {{ $titles->titleSingular }}</a>
           </div>
         </div>
       </div>
@@ -30,8 +31,8 @@
               <tr>
                 <!-- <th></th> -->
                 <th>Id</th>
-                <th>Title</th>
-                <th>Slug</th>
+                <th>Logo</th>
+                <th>Name</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -56,7 +57,7 @@
 <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
 
 <script src="{{ back_asset('js/custom/custom.js') }}"></script>
-<script src="{{ back_asset('js/custom/eventAward.js') }}"></script>
+<script src="{{ back_asset('js/custom/eventTeams.js') }}"></script>
 
 <script>
   list();

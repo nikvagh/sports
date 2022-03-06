@@ -27,4 +27,5 @@ Route::group(['middleware' => ['authCheckManual']], function() {
     Route::post('teams', [App\Http\Controllers\api\ApiController::class, 'teams']);
     Route::post('wallpapers', [App\Http\Controllers\api\ApiController::class, 'wallpapers']);
     Route::post('winners', [App\Http\Controllers\api\ApiController::class, 'winners']);
+    Route::post('highlights', [App\Http\Controllers\api\ApiController::class, 'highlights']);
 });

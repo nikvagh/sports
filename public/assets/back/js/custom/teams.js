@@ -37,18 +37,18 @@
           data: 'name',
           name: 'name'
         },
-        {
-          data: 'points',
-          name: 'points'
-        },
-        {
-          data: 'event.game.name',
-          name: 'event.game.name',
-        },
-        {
-          data: 'event.name',
-          name: 'event.name'
-        },
+        // {
+        //   data: 'points',
+        //   name: 'points'
+        // },
+        // {
+        //   data: 'event.game.name',
+        //   name: 'event.game.name',
+        // },
+        // {
+        //   data: 'event.name',
+        //   name: 'event.name'
+        // },
         {
           data: "action"
         }

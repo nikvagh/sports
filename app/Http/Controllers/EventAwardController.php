@@ -28,7 +28,7 @@ class EventAwardController extends Controller
     public function create()
     {
         $result['titles'] = $this->titles;
-        $result['games'] = Game::get()->all();
+        // $result['games'] = Game::get()->all();
         return view(backView() . '.' . $this->titles->viewNamePrefix . '_add')->with($result);
     }
 
@@ -37,24 +37,9 @@ class EventAwardController extends Controller
         extract(request()->all());
 
         $eventAward = new EventAward;
-
-        if($award_type == "team"){
-            $team = $awardable = Team::findOrFail($request->team);
-            $event_id = $team->event()->first()->id;
-        }else if($award_type == "player"){
-            
-            $teamPlayer = TeamPlayer::findOrFail($request->player);
-            $awardable = $teamPlayer->player()->first();
-            $team = $teamPlayer->team()->first();
-            $event_id = $team->event()->first()->id;
-        }
-
-        $eventAward->award_type = $award_type;
-        $eventAward->event_id = $event_id;
         $eventAward->title = $title;
-        $eventAward->slug = $title;
-
-        $awardable->eventAwards()->save($eventAward);
+        $eventAward->slug = trim($slug);
+        $eventAward->save();
 
         $flash_s = 'Data saved successfully!';
         session()->flash('flash_s', $flash_s);
@@ -70,30 +55,16 @@ class EventAwardController extends Controller
     {
         $result['titles'] = $this->titles;
         $result['row'] = $eventAward;
-        $result['games'] = Game::get()->all();
+        // $result['games'] = Game::get()->all();
         return view(backView() . '.' . $this->titles->viewNamePrefix . '_edit')->with($result);
     }
 
     public function update(Request $request, EventAward $eventAward)
     {
         extract(request()->all());
-
-        if($award_type == "team"){
-            $team = $awardable = Team::findOrFail($request->team);
-            $event_id = $team->event()->first()->id;
-        }else if($award_type == "player"){
-            $teamPlayer = TeamPlayer::findOrFail($request->player);
-            $awardable = $teamPlayer->player()->first();
-            $team = $teamPlayer->team()->first();
-            $event_id = $team->event()->first()->id;
-        }
-
-        $eventAward->award_type = $award_type;
-        $eventAward->event_id = $event_id;
         $eventAward->title = $title;
-        $eventAward->slug = $title;
-
-        $awardable->eventAwards()->save($eventAward);
+        // $eventAward->slug = trim($slug);
+        $eventAward->save();
 
         $flash_s = 'Data saved successfully!';
         session()->flash('flash_s', $flash_s);
@@ -109,11 +80,15 @@ class EventAwardController extends Controller
 
     public function validation(Request $request)
     {
+        Validator::extend('without_spaces', function($attr, $value){
+            return preg_match('/^\S*$/u', $value);
+        });
+        
         $validator = Validator::make(request()->all(), [
-            'award_type' => 'required',
-            'player' => 'required_if:award_type,==,player',
-            'team' => 'required_if:award_type,==,team',
-            'title' => 'required'
+            'title' => 'required',
+            'slug' => 'required|without_spaces'
+        ],[
+            'slug.without_spaces' => 'The spaces not allow for :attributes field.'
         ]);
         if ($validator->fails()) {
             return response()->json(['status' => 400, 'title' => 'Errors', 'result' => $validator->errors()->all()]);
@@ -124,7 +99,7 @@ class EventAwardController extends Controller
 
     public function list_data()
     {
-        $data = EventAward::with('event')->with('event_awardable')->get()->all();
+        $data = EventAward::get()->all();
 
         return datatables($data)
             ->addColumn('action', function ($row) {

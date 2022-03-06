@@ -41,14 +41,14 @@ class TeamController extends Controller
             $logo->move(Team::logoLocation(),$fileName);
         }
 
-        $event = Event::findOrFail($request->event);
+        // $event = Event::findOrFail($request->event);
 
         $team = new Team;
         $team->name = $request->name;
         $team->logo = $fileName;
-        $team->points = $request->points;
+        // $team->points = $request->points;
 
-        $event->teams()->save($team);
+        $team->save();
 
         $flash_s = 'Data saved successfully!';
         session()->flash('flash_s', $flash_s);
@@ -82,9 +82,9 @@ class TeamController extends Controller
             $team->logo = $fileName;
         }
 
-        $team->event_id = $request->event;
+        // $team->event_id = $request->event;
         $team->name = $request->name;
-        $team->points = $request->points;
+        // $team->points = $request->points;
         $team->save();
 
         $flash_s = 'Data saved successfully!';
@@ -105,9 +105,9 @@ class TeamController extends Controller
     public function validation(Request $request)
     {
         $validator = Validator::make(request()->all(), [
-            'event' => 'required',
+            // 'event' => 'required',
             'name' => 'required',
-            'points' => 'required'
+            // 'points' => 'required'
         ]);
         if ($validator->fails()) {
             return response()->json(['status' => 400, 'title' => 'Errors', 'result' => $validator->errors()->all()]);
@@ -118,7 +118,7 @@ class TeamController extends Controller
 
     public function list_data()
     {
-        $data = Team::with('event')->with('event.game')->get()->all();
+        $data = Team::get()->all();
 
         // echo "<pre>";print_r($data);
         // exit;
@@ -126,8 +126,8 @@ class TeamController extends Controller
         return datatables($data)
             ->addColumn('action', function ($row) {
                 return '<a class="btn btn-sm btn-info" href="' . $this->titles->viewPathPrefix . '/' . $row->id . '/edit/"><i class="feather icon-edit"></i> Edit</a>
-                        <a oncLick="confirmDelete(' . $row->id . ',\'Team\')" class="btn btn-sm btn-danger" href="javascript:void(0);"><i class="feather icon-trash-2"></i> Delete</a>
-                        <a class="btn btn-sm btn-secondary" href="' . $this->titles->viewPathPrefix . '/' . $row->id . '/editTeamPlayer/"><i class="feather icon-users"></i> Players</a>';
+                        <a oncLick="confirmDelete(' . $row->id . ',\'Team\')" class="btn btn-sm btn-danger" href="javascript:void(0);"><i class="feather icon-trash-2"></i> Delete</a>';
+                        // <a class="btn btn-sm btn-secondary" href="' . $this->titles->viewPathPrefix . '/' . $row->id . '/editTeamPlayer/"><i class="feather icon-users"></i> Players</a>';
             })->make();
     }
 

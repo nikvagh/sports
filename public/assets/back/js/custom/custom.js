@@ -64,7 +64,7 @@ function confirmDelete(id, item_name, action)
 
 						'<div class="modal-footer with-border">'+
 							'<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>'+
-							'<button type="button" class="btn btn-danger send_btn" onClick="deleteRow('+id+')"> Delete </button>'+
+							'<button type="button" class="btn btn-danger send_btn" onClick="deleteRow(\''+id+'\')"> Delete </button>'+
 						'</div>'+
 					'</div>'+
 					
@@ -238,3 +238,25 @@ setTimeout(function() {
 	$('.flashAlertOnLoad').slideUp(1000);
 }, 3000);
 
+$(document).on("submit", "#form", function(e) {
+	console.log('submit');
+    e.preventDefault();
+    $('[name="submit"]').trigger('click');
+});
+
+const getEventsBYGame = (game_id,target_id) => {
+    var call = ajaxCall('/'+ADMIN+'/events/eventsBYGame/'+game_id, 'get', 'json', [], []);
+    userAuth(call);
+    if (call.status == 200) {
+      let response = call.responseJSON;
+
+	  //   console.log(response);
+      $("#"+target_id).find('option').remove().end()
+                    .append($("<option></option>")
+                    .attr("value", '')
+                    .text('Select Event')); 
+      response.result.events.forEach(element => {
+        $("#"+target_id).append($("<option></option>").attr("value", element.id).text(element.name)); 
+      });
+    }
+}

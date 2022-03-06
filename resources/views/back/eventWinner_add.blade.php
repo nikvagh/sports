@@ -24,18 +24,21 @@
 
             <div class="col-sm-6 team_box">
               <div class="form-group mb-3">
+                <label>Game *</label>
+                <select class="select2 form-control" name="game" id="game">
+                  <option value="">Select Game</option>
+                  @foreach($games as $key=>$val)
+                    <option value="{{ $val->id }}"> {{ $val->name }}</option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
+
+            <div class="col-sm-6 team_box">
+              <div class="form-group mb-3">
                 <label>Event *</label>
                 <select class="select2 form-control" name="event" id="event">
                   <option value="">Select Event</option>
-                  @foreach($games as $key=>$val)
-                    @if($val->events->count() > 0)
-                    <optgroup label="Game : {{ $val->name }}">
-                      @foreach($val->events as $key1=>$val1)
-                        <option value="{{ $val1->id }}">&nbsp;&nbsp; {{ $val1->name }}</option>
-                      @endforeach
-                    </optgroup>
-                    @endif
-                  @endforeach
                 </select>
               </div>
             </div>
@@ -45,20 +48,8 @@
                 <label>Team *</label>
                 <select class="select2 form-control" name="team" id="team">
                   <option value="">Select Team</option>
-                  @foreach($games as $key=>$val)
-                    @if($val->events->count() > 0)
-                    <optgroup label="Game : {{ $val->name }}">
-                      @foreach($val->events as $key1=>$val1)
-                      <optgroup label="&nbsp;&nbsp; Event :  {{ $val1->name }}">
-
-                        @foreach($val1->teams as $key2=>$val2)
-                          <option value="{{ $val2->id }}">&nbsp;&nbsp;&nbsp;&nbsp;  {{ $val2->name }}</option>
-                        @endforeach
-
-                      </optgroup>
-                      @endforeach
-                    </optgroup>
-                    @endif
+                  @foreach($teams as $key=>$val)
+                    <option value="{{ $val->id }}"> {{ $val->name }}</option>
                   @endforeach
                 </select>
               </div>
@@ -114,16 +105,10 @@
 <script>
   $(".select2").select2();
 
-  // $('input[name="year"]').daterangepicker({
-	// 	timePicker: false,
-  //   // timePicker24Hour: true,
-	// 	locale: {
-	// 	  format: 'YYYY'
-	// 	},
-  //   // viewMode: "years", 
-  //   // minViewMode: "weeks",
-  //   singleDatePicker: true
-	// });
+  $('#game').on('change',function(){
+    let game_id = $(this).val();
+    getEventsBYGame(game_id,'event');
+  });
 
 </script>
 @endsection

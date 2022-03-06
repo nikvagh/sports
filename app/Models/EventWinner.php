@@ -19,11 +19,11 @@ class EventWinner extends Model
     }
 
     public static function imageLocation(){
-        return storage_path('app/public/application/winners');
+        return storage_path('app/public/winners');
     }
     
     public static function imageLocationAbs(){
-        return url('storage/application/winners');
+        return url('storage/winners');
     }
 
     public function getImageUrlAttribute()

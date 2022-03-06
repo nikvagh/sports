@@ -20,7 +20,7 @@
           @csrf
           <div class="row">
 
-          <div class="col-sm-6">
+          <!-- <div class="col-sm-6">
               <div class="form-group mb-3">
                 <label>Award Type *</label>
                 <select class="select2 form-control" name="award_type" id="award_type">
@@ -29,55 +29,7 @@
                   <option value="player">Player</option>
                 </select>
               </div>
-            </div>
-
-            <div class="col-sm-6 team_box">
-              <div class="form-group mb-3">
-                <label>Team *</label>
-                <select class="select2 form-control" name="team" id="team">
-                  <option value="">Select Team</option>
-                  @foreach($games as $key=>$val)
-                    @if($val->events->count() > 0)
-                    <!-- <optgroup label="Game : {{ $val->name }}"> -->
-                      @foreach($val->events as $key1=>$val1)
-                      <optgroup label="&nbsp;&nbsp; Event : {{ $val1->name }}">
-                      @foreach($val1->teams as $key2=>$val2)
-                        <option value="{{ $val2->id }}">&nbsp;&nbsp;&nbsp;&nbsp; {{ $val2->name }}</option>
-                      @endforeach
-                      </optgroup>
-                      @endforeach
-                    <!-- </optgroup> -->
-                    @endif
-                  @endforeach
-                </select>
-              </div>
-            </div>
-
-            <div class="col-sm-6 player_box">
-              <div class="form-group mb-3">
-                <label>Players *</label>
-                <select class="select2 form-control" name="player" id="player">
-                  <option value="">Select Player</option>
-                  @foreach($games as $key=>$val)
-                  @if($val->events->count() > 0)
-                  <!-- <optgroup label="Game : {{ $val->name }}"> -->
-                    @foreach($val->events as $key1=>$val1)
-                    <optgroup label="Event : {{ $val1->name }}">
-                      @foreach($val1->teams as $key2=>$val2)
-                      <optgroup label="&nbsp;&nbsp; Teams : {{ $val2->name }}">
-                        @foreach($val2->teamPlayers as $key3=>$val3)
-                          <option value="{{ $val3->id }}">&nbsp;&nbsp;&nbsp;&nbsp; {{ $val3->player->name }}</option>
-                        @endforeach
-                      </optgroup>
-                      @endforeach
-                    </optgroup>
-                    @endforeach
-                  <!-- </optgroup> -->
-                  @endif
-                  @endforeach
-                </select>
-              </div>
-            </div>
+            </div> -->
 
             <div class="col-sm-6">
               <div class="form-group mb-3">
@@ -86,12 +38,12 @@
               </div>
             </div>
 
-            <!-- <div class="col-sm-6">
+            <div class="col-sm-6">
               <div class="form-group mb-3">
-                <label>Slug *</label>
-                <input type="text" class="form-control" name="title" value="">
+                <label>Slug * (You can not change the value of slug once you saved) </label>
+                <input type="text" class="form-control" name="slug" value="">
               </div>
-            </div> -->
+            </div>
             
           </div>
         </form>

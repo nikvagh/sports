@@ -49,16 +49,16 @@
             <div class="col-sm-6">
               <div class="row">
                 <div class="col-sm-10">
-                  <label>Profile </label>
+                  <label>Image </label>
                   <div class="input-group mb-3">
                     <div class="custom-file">
-                      <input type="file" class="custom-file-input" name="profile" id="profile" accept="image/*"  onchange="document.getElementById('profile_img').src = window.URL.createObjectURL(this.files[0])">
-                      <label class="custom-file-label" for="profile">Choose file</label>
+                      <input type="file" class="custom-file-input" name="image" id="image" accept="image/*"  onchange="document.getElementById('image_img').src = window.URL.createObjectURL(this.files[0])">
+                      <label class="custom-file-label" for="image">Choose file</label>
                     </div>
                   </div>
                 </div>
                 <div class="col-sm-2 d-flex align-items-center">
-                  <img src="{{ ($row->imageUrl !='') ? $row->imageUrl : url(back_asset('images/no-img.png')) }}" alt="" class="img-fluid" id="profile_img">
+                  <img src="{{ ($row->imageUrl !='') ? $row->imageUrl : url(back_asset('images/no-img.png')) }}" alt="" class="img-fluid" id="image_img">
                 </div>
               </div>
             </div>

@@ -65,13 +65,22 @@ Route::group(['middleware' => 'auth','prefix' => admin()], function ($router) {
     Route::get('events/list_data', [App\Http\Controllers\EventController::class, 'list_data']);
     Route::post('events/validation', [App\Http\Controllers\EventController::class,'validation']);
     Route::resource('events', App\Http\Controllers\EventController::class);
+    Route::get('events/eventsBYGame/{game_id}', [App\Http\Controllers\EventController::class, 'eventsBYGame']);
+
+    Route::get('events/{event_id}/eventTeams/list_data', [App\Http\Controllers\EventTeamController::class, 'list_data']);
+    Route::post('events/{event_id}/eventTeams/validation', [App\Http\Controllers\EventTeamController::class,'validation']);
+    Route::resource('events/{event_id}/eventTeams', App\Http\Controllers\EventTeamController::class);
+
+    Route::get('events/{event_id}/eventTeams/{event_team_id}/eventTeamPlayers/list_data', [App\Http\Controllers\EventTeamPlayerController::class, 'list_data']);
+    Route::post('events/{event_id}/eventTeams/{event_team_id}/eventTeamPlayers/validation', [App\Http\Controllers\EventTeamPlayerController::class,'validation']);
+    Route::resource('events/{event_id}/eventTeams/{event_team_id}/eventTeamPlayers', App\Http\Controllers\EventTeamPlayerController::class);
 
     Route::get('teams/list_data', [App\Http\Controllers\TeamController::class, 'list_data']);
     Route::post('teams/validation', [App\Http\Controllers\TeamController::class,'validation']);
     Route::resource('teams', App\Http\Controllers\TeamController::class);
-    Route::get('teams/{team}/editTeamPlayer', [App\Http\Controllers\TeamController::class,'editTeamPlayer']);
-    Route::post('teams/teamPlayerValidation', [App\Http\Controllers\TeamController::class,'teamPlayerValidation']);
-    Route::post('teams/{team}/updateTeamPlayer', [App\Http\Controllers\TeamController::class,'updateTeamPlayer']);
+    // Route::get('teams/{team}/editTeamPlayer', [App\Http\Controllers\TeamController::class,'editTeamPlayer']);
+    // Route::post('teams/teamPlayerValidation', [App\Http\Controllers\TeamController::class,'teamPlayerValidation']);
+    // Route::post('teams/{team}/updateTeamPlayer', [App\Http\Controllers\TeamController::class,'updateTeamPlayer']);
 
     Route::get('players/list_data', [App\Http\Controllers\PlayerController::class, 'list_data']);
     Route::post('players/validation', [App\Http\Controllers\PlayerController::class,'validation']);
