@@ -15,8 +15,8 @@ class CreateEventAwardsTable extends Migration
     {
         Schema::create('event_awards', function (Blueprint $table) {
             $table->id();
-            // $table->integer('event_id');
-            $table->string('award_type')->comment('team,player')->default('player');
+            $table->integer('event_id');
+            // $table->string('award_type')->comment('team,player')->default('player');
             $table->string('slug');
             $table->string('title');
             // $table->integer('event_awardable_id');

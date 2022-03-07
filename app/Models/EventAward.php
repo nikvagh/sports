@@ -22,8 +22,13 @@ class EventAward extends Model
         return $this->belongsTo(Event::class);
     }
 
-    public function event_awardable()
+    // public function event_awardable()
+    // {
+    //     return $this->morphTo();
+    // }
+
+    public function eventAwardHolders()
     {
-        return $this->morphTo();
+        return $this->belongsTo(EventAwardHolder::class);
     }
 }

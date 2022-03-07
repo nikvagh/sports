@@ -32,6 +32,7 @@
                 <th>Id</th>
                 <th>Title</th>
                 <th>Slug</th>
+                <th>Event</th>
                 <th>Action</th>
               </tr>
             </thead>

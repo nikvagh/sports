@@ -62,10 +62,20 @@ Route::group(['middleware' => 'auth','prefix' => admin()], function ($router) {
     Route::resource('games', App\Http\Controllers\GameController::class);
     Route::post('games/validation', [App\Http\Controllers\GameController::class,'validation']);
 
+    Route::get('playerRoles/list_data', [App\Http\Controllers\PlayerRoleController::class, 'list_data']);
+    Route::post('playerRoles/validation', [App\Http\Controllers\PlayerRoleController::class,'validation']);
+    Route::resource('playerRoles', App\Http\Controllers\PlayerRoleController::class);
+    Route::get('playerRoles/roleByGame/{game_id}', [App\Http\Controllers\PlayerRoleController::class, 'roleByGame']);
+
+
     Route::get('events/list_data', [App\Http\Controllers\EventController::class, 'list_data']);
     Route::post('events/validation', [App\Http\Controllers\EventController::class,'validation']);
     Route::resource('events', App\Http\Controllers\EventController::class);
     Route::get('events/eventsBYGame/{game_id}', [App\Http\Controllers\EventController::class, 'eventsBYGame']);
+
+    Route::get('events/{event_id}/eventPointTables_edit', [App\Http\Controllers\EventController::class,'eventPointTables_edit']);
+    Route::post('events/{event_id}/eventPointTables_validation', [App\Http\Controllers\EventController::class,'eventPointTables_validation']);
+    Route::put('events/{event_id}/eventPointTables_update', [App\Http\Controllers\EventController::class,'eventPointTables_update']);
 
     Route::get('events/{event_id}/eventTeams/list_data', [App\Http\Controllers\EventTeamController::class, 'list_data']);
     Route::post('events/{event_id}/eventTeams/validation', [App\Http\Controllers\EventTeamController::class,'validation']);
@@ -74,6 +84,7 @@ Route::group(['middleware' => 'auth','prefix' => admin()], function ($router) {
     Route::get('events/{event_id}/eventTeams/{event_team_id}/eventTeamPlayers/list_data', [App\Http\Controllers\EventTeamPlayerController::class, 'list_data']);
     Route::post('events/{event_id}/eventTeams/{event_team_id}/eventTeamPlayers/validation', [App\Http\Controllers\EventTeamPlayerController::class,'validation']);
     Route::resource('events/{event_id}/eventTeams/{event_team_id}/eventTeamPlayers', App\Http\Controllers\EventTeamPlayerController::class);
+    Route::get('eventTeamPlayers/eventTeamPlayersByEvent/{event_id}', [App\Http\Controllers\EventTeamPlayerController::class, 'eventTeamPlayersByEvent']);
 
     Route::get('teams/list_data', [App\Http\Controllers\TeamController::class, 'list_data']);
     Route::post('teams/validation', [App\Http\Controllers\TeamController::class,'validation']);
@@ -81,6 +92,7 @@ Route::group(['middleware' => 'auth','prefix' => admin()], function ($router) {
     // Route::get('teams/{team}/editTeamPlayer', [App\Http\Controllers\TeamController::class,'editTeamPlayer']);
     // Route::post('teams/teamPlayerValidation', [App\Http\Controllers\TeamController::class,'teamPlayerValidation']);
     // Route::post('teams/{team}/updateTeamPlayer', [App\Http\Controllers\TeamController::class,'updateTeamPlayer']);
+    Route::get('teams/teamsByEvent/{event_id}', [App\Http\Controllers\TeamController::class, 'teamsByEvent']);
 
     Route::get('players/list_data', [App\Http\Controllers\PlayerController::class, 'list_data']);
     Route::post('players/validation', [App\Http\Controllers\PlayerController::class,'validation']);
@@ -89,6 +101,7 @@ Route::group(['middleware' => 'auth','prefix' => admin()], function ($router) {
     Route::get('stadiums/list_data', [App\Http\Controllers\StadiumController::class, 'list_data']);
     Route::post('stadiums/validation', [App\Http\Controllers\StadiumController::class,'validation']);
     Route::resource('stadiums', App\Http\Controllers\StadiumController::class);
+    Route::get('stadiums/stadiumsByEvent/{event_id}', [App\Http\Controllers\StadiumController::class, 'stadiumsByEvent']);
 
     Route::get('matches/list_data', [App\Http\Controllers\MatchController::class, 'list_data']);
     Route::post('matches/validation', [App\Http\Controllers\MatchController::class,'validation']);
@@ -100,6 +113,11 @@ Route::group(['middleware' => 'auth','prefix' => admin()], function ($router) {
     Route::get('eventAwards/list_data', [App\Http\Controllers\EventAwardController::class, 'list_data']);
     Route::post('eventAwards/validation', [App\Http\Controllers\EventAwardController::class,'validation']);
     Route::resource('eventAwards', App\Http\Controllers\EventAwardController::class);
+    Route::get('eventAwards/eventAwardsByEvent/{event_id}', [App\Http\Controllers\EventAwardController::class, 'eventAwardsByEvent']);
+    
+    Route::get('eventAwardHolders/list_data', [App\Http\Controllers\EventAwardHolderController::class, 'list_data']);
+    Route::post('eventAwardHolders/validation', [App\Http\Controllers\EventAwardHolderController::class,'validation']);
+    Route::resource('eventAwardHolders', App\Http\Controllers\EventAwardHolderController::class);
 
     Route::get('eventWallpapers/list_data', [App\Http\Controllers\eventWallpaperController::class, 'list_data']);
     Route::post('eventWallpapers/validation', [App\Http\Controllers\eventWallpaperController::class,'validation']);
@@ -121,7 +139,7 @@ Route::group(['middleware' => 'auth','prefix' => admin()], function ($router) {
     Route::post('eventWinners/validation', [App\Http\Controllers\eventWinnerController::class,'validation']);
     Route::resource('eventWinners', App\Http\Controllers\eventWinnerController::class);
 
-    Route::get('playerRoles/list_data', [App\Http\Controllers\PlayerRoleController::class, 'list_data']);
-    Route::post('playerRoles/validation', [App\Http\Controllers\PlayerRoleController::class,'validation']);
-    Route::resource('playerRoles', App\Http\Controllers\PlayerRoleController::class);
+    
 });
+
+

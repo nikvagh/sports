@@ -17,8 +17,13 @@ class EventTeamPlayer extends Model
         $title = ['title'=>'Event Team Players','viewPathPrefix'=>'eventTeamPlayers','viewNamePrefix'=>'eventTeamPlayer','titleSingular'=>'Event Team Player'];
 
         $event = Event::find($event_id);
-        $breadCrumbTitle = $event->name.' - Event Team Players';
+        $breadCrumbTitle = '';
+        if(isset($event->name)){
+            $breadCrumbTitle .= $event->name;
+        }
 
+        $breadCrumbTitle .= ' - Event Team Players';
+        
         if($event_team_id > 0){
             $eventTeam = eventTeam::with('team')->find($event_team_id);
             $breadCrumbTitle = $eventTeam->team->name.' - Event Team Players';

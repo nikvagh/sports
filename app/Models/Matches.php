@@ -19,12 +19,12 @@ class Matches extends Model
 
     public function team1()
     {
-        return $this->belongsTo(Team::class,'team_id_1','id');
+        return $this->belongsTo(EventTeam::class,'event_team_id_1','id');
     }
 
     public function team2()
     {
-        return $this->belongsTo(Team::class,'team_id_2','id');
+        return $this->belongsTo(EventTeam::class,'event_team_id_2','id');
     }
 
     public function stadium()

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\EventTeam;
 use App\Models\Game;
 use App\Models\Highlight;
 use App\Models\Matches;
@@ -30,8 +31,8 @@ class MatchController extends Controller
     {
         $result['titles'] = $this->titles;
         // $result['games'] = Game::get()->all();
-        $result['games'] = Game::with('events')->has('events.teams')->get()->all();
-        $result['gamesForStadium'] = Game::with('events')->has('events.stadiums')->get()->all();
+        $result['games'] = Game::with('events')->get()->all();
+        // $result['gamesForStadium'] = Game::with('events')->has('events.stadiums')->get()->all();
         return view(backView() . '.' . $this->titles->viewNamePrefix . '_add')->with($result);
     }
 
@@ -40,8 +41,8 @@ class MatchController extends Controller
         extract(request()->all());
 
         $match = new Matches;
-        $match->team_id_1 = $team_1;
-        $match->team_id_2 = $team_2;
+        $match->event_team_id_1 = $team_1;
+        $match->event_team_id_2 = $team_2;
         $match->stadium_id = $stadium;
         $match->match_time = $match_time;
 
@@ -61,8 +62,17 @@ class MatchController extends Controller
     {
         $result['titles'] = $this->titles;
         $result['row'] = $match;
-        $result['games'] = Game::with('events')->has('events.teams')->get()->all();
-        $result['gamesForStadium'] = Game::with('events')->has('events.stadiums')->get()->all();
+
+        $result['stadium_selected'] = $stadium_selected = $match->stadium()->first();
+        $result['event_selected'] = $event_selected = $stadium_selected->event()->first();
+        $result['game_selected'] = $game_selected = $event_selected->game()->first();
+        $result['team1_selected'] = $match->team1()->with('team')->first();
+        $result['team2_selected'] = $match->team2()->with('team')->first();
+
+        $result['games'] = Game::get()->all();
+        $result['events'] = Event::where('game_id',$game_selected->id)->get();
+        $result['teams'] = EventTeam::where('event_id',$event_selected->id)->with('team')->get();
+        $result['stadiums'] = Stadium::where('event_id',$event_selected->id)->get();
         return view(backView() . '.' . $this->titles->viewNamePrefix . '_edit')->with($result);
     }
 
@@ -70,10 +80,11 @@ class MatchController extends Controller
     {
         extract(request()->all());
 
-        $match->team_id_1 = $team_1;
-        $match->team_id_2 = $team_2;
+        $match->event_team_id_1 = $team_1;
+        $match->event_team_id_2 = $team_2;
         $match->stadium_id = $stadium;
         $match->match_time = $match_time;
+
         $match->save();
 
         $flash_s = 'Data saved successfully!';
@@ -113,20 +124,12 @@ class MatchController extends Controller
             return response()->json(['status' => 320, 'title' => 'Errors', 'result' => ['Team 1, team 2 must be different']]);
         }
 
-        $team1Data = Team::find($team_1);
-        $team2Data = Team::find($team_2);
-        $stadiumData = Stadium::find($stadium);
-
-        if(($team1Data->event()->first()->id != $team2Data->event()->first()->id) || ($team1Data->event()->first()->id != $stadiumData->event()->first()->id)){
-            return response()->json(['status' => 320, 'title' => 'Errors', 'result' => ['Team 1, team 2 and stadium must have same Event']]);
-        }
-
         return response()->json(['status' => 200]);
     }
 
     public function list_data()
     {
-        $data = Matches::with('team1')->with('team2')->with('stadium')->get()->all();
+        $data = Matches::with('team1')->with('team1.team')->with('team2')->with('team2.team')->with('stadium')->get()->all();
 
         return datatables($data)
             ->addColumn('action', function ($row) {

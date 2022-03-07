@@ -260,3 +260,88 @@ const getEventsBYGame = (game_id,target_id) => {
       });
     }
 }
+
+const getTeamsBYEvent = (game_id,target_class) => {
+    var call = ajaxCall('/'+ADMIN+'/teams/teamsByEvent/'+game_id, 'get', 'json', [], []);
+    userAuth(call);
+    if (call.status == 200) {
+      let response = call.responseJSON;
+
+	    // console.log(response);
+      $("body ."+target_class).find('option').remove().end()
+                    .append($("<option></option>")
+                    .attr("value", '')
+                    .text('Select Team')); 
+      response.result.teams.forEach(element => {
+        $("."+target_class).append($("<option></option>").attr("value", element.id).text(element.team.name)); 
+      });
+    }
+}
+
+const getStadiumsByEvent = (event_id,target_class) => {
+    var call = ajaxCall('/'+ADMIN+'/stadiums/stadiumsByEvent/'+event_id, 'get', 'json', [], []);
+    userAuth(call);
+    if (call.status == 200) {
+      	let response = call.responseJSON;
+
+	    console.log(response);
+		$("body ."+target_class).find('option').remove().end()
+						.append($("<option></option>")
+						.attr("value", '')
+						.text('Select Stadium'));
+		response.result.stadiums.forEach(element => {
+			$("."+target_class).append($("<option></option>").attr("value", element.id).text(element.name)); 
+      	});
+    }
+}
+
+const getAwardsByEvent = (event_id,target_class) => {
+    var call = ajaxCall('/'+ADMIN+'/eventAwards/eventAwardsByEvent/'+event_id, 'get', 'json', [], []);
+    userAuth(call);
+    if (call.status == 200) {
+      	let response = call.responseJSON;
+
+	    // console.log(response);
+		$("body ."+target_class).find('option').remove().end()
+						.append($("<option></option>")
+						.attr("value", '')
+						.text('Select Award'));
+		response.result.eventAwards.forEach(element => {
+			$("."+target_class).append($("<option></option>").attr("value", element.id).text(element.title)); 
+      	});
+    }
+}
+
+const getPlayersByEvent = (event_id,target_class) => {
+    var call = ajaxCall('/'+ADMIN+'/eventTeamPlayers/eventTeamPlayersByEvent/'+event_id, 'get', 'json', [], []);
+    userAuth(call);
+    if (call.status == 200) {
+      	let response = call.responseJSON;
+
+	    console.log(response);
+		$("body ."+target_class).find('option').remove().end()
+						.append($("<option></option>")
+						.attr("value", '')
+						.text('Select Award'));
+		response.result.eventTeamPlayers.forEach(element => {
+			$("."+target_class).append($("<option></option>").attr("value", element.id).text(element.player.name)); 
+      	});
+    }
+}
+
+const getRoleByGame = (game_id,target_class) => {
+    var call = ajaxCall('/'+ADMIN+'/playerRoles/roleByGame/'+game_id, 'get', 'json', [], []);
+    userAuth(call);
+    if (call.status == 200) {
+      	let response = call.responseJSON;
+
+	    console.log(response);
+		$("body ."+target_class).find('option').remove().end()
+						.append($("<option></option>")
+						.attr("value", '')
+						.text('Select Role'));
+		response.result.playerRoles.forEach(element => {
+			$("."+target_class).append($("<option></option>").attr("value", element.id).text(element.name)); 
+      	});
+    }
+}

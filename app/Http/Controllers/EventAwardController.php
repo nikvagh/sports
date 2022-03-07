@@ -28,7 +28,7 @@ class EventAwardController extends Controller
     public function create()
     {
         $result['titles'] = $this->titles;
-        // $result['games'] = Game::get()->all();
+        $result['games'] = Game::get()->all();
         return view(backView() . '.' . $this->titles->viewNamePrefix . '_add')->with($result);
     }
 
@@ -37,6 +37,7 @@ class EventAwardController extends Controller
         extract(request()->all());
 
         $eventAward = new EventAward;
+        $eventAward->event_id = $event;
         $eventAward->title = $title;
         $eventAward->slug = trim($slug);
         $eventAward->save();
@@ -55,13 +56,18 @@ class EventAwardController extends Controller
     {
         $result['titles'] = $this->titles;
         $result['row'] = $eventAward;
-        // $result['games'] = Game::get()->all();
+        $result['event_selected'] = $event_selected = $eventAward->event()->first();
+        $result['game_selected'] = $game_selected = $event_selected->game()->first();
+
+        $result['games'] = Game::get()->all();
+        $result['events'] = Event::where('game_id',$game_selected->id)->get();
         return view(backView() . '.' . $this->titles->viewNamePrefix . '_edit')->with($result);
     }
 
     public function update(Request $request, EventAward $eventAward)
     {
         extract(request()->all());
+        $eventAward->event_id = $event;
         $eventAward->title = $title;
         // $eventAward->slug = trim($slug);
         $eventAward->save();
@@ -85,6 +91,7 @@ class EventAwardController extends Controller
         });
         
         $validator = Validator::make(request()->all(), [
+            'event' => 'required',
             'title' => 'required',
             'slug' => 'required|without_spaces'
         ],[
@@ -99,7 +106,7 @@ class EventAwardController extends Controller
 
     public function list_data()
     {
-        $data = EventAward::get()->all();
+        $data = EventAward::with('event')->get()->all();
 
         return datatables($data)
             ->addColumn('action', function ($row) {
@@ -107,4 +114,11 @@ class EventAwardController extends Controller
                         <a oncLick="confirmDelete(' . $row->id . ',\'Award\')" class="btn btn-sm btn-danger" href="javascript:void(0);"><i class="feather icon-trash-2"></i> Delete</a>';
             })->make();
     }
+
+    public function eventAwardsByEvent($event_id){
+        $eventAwards = EventAward::where('event_id',$event_id)->get()->all();
+        $result['eventAwards'] = $eventAwards;
+        return response()->json(['status' => 200, 'title' => 'Success', 'result' => $result]);
+    }
+
 }

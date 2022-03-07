@@ -25,12 +25,12 @@
           name: 'id'
         },
         {
-          data: 'team1.name',
-          name: 'team1.name'
+          data: 'team1.team.name',
+          name: 'team1.team.name'
         },
         {
-          data: 'team2.name',
-          name: 'team2.name'
+          data: 'team2.team.name',
+          name: 'team2.team.name'
         },
         {
           data: 'stadium.name',

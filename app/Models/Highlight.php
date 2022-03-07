@@ -34,4 +34,5 @@ class Highlight extends Model
     {
         return $this->belongsTo(Matches::class,'match_id','id');
     }
+
 }

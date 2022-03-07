@@ -125,3 +125,45 @@
       dtTable1.ajax.reload(null, false);
     }
   }
+
+  const eventPointTables_validation = (formData) => {
+    $(".validation-popup").css('display','none');
+    let event_id = $("#event_id").val();
+    var call = ajaxCall('/'+ADMIN+'/'+MODEL+'/'+event_id+'/eventPointTables_validation', 'post', 'json', formData, []);
+    userAuth(call);
+    if (call.status == 200) {
+      let response = call.responseJSON;
+
+      if (response.status != 200) {
+        let errorText = '';
+        response.result.forEach(element => {
+            errorText += element+"<br/>";
+        });
+        flashAlert(errorText,'error');
+        btn_disable(false,'save_btn','Save');
+        return false;
+      } else {
+        return true;
+      }
+
+    }
+  }
+
+  const eventPointTables_update = (event_id) => {
+    
+    btn_disable(true,'save_btn','validating, Please Wait...');
+    var formData1 = new FormData(document.getElementById('form'));
+    if (eventPointTables_validation(formData1)) {
+      btn_disable(true,'save_btn','saving, Please Wait...');
+      var formData2 = formData1;
+      formData2.append('_method','PUT');
+      
+      var call = ajaxCall('/'+ADMIN+'/'+MODEL+'/'+event_id+'/'+'eventPointTables_update', 'post', 'json', formData2, []);
+      userAuth(call);
+      if (call.status == 200) {
+        let response = call.responseJSON;
+        window.location.replace(response.result.next);
+      }
+
+    }
+  }

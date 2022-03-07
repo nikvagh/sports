@@ -40,9 +40,13 @@ class Player extends Model
         return $this->hasMany(TeamPlayer::class);
     }
 
-    public function eventAwards()
-    {
-        return $this->morphMany(EventAward::class, 'event_awardable');
+    // public function eventAwards()
+    // {
+    //     return $this->morphMany(EventAward::class, 'event_awardable');
+    // }
+
+    public function playerRole(){
+        return $this->belongsTo(PlayerRole::class);
     }
 
 }

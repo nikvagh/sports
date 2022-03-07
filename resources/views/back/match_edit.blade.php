@@ -24,22 +24,38 @@
             
             <div class="col-sm-6">
               <div class="form-group mb-3">
-                <label>Team 1 *</label>
-                <select class="select2 form-control" name="team_1">
-                  <option value="">Select Team 1</option>
+                <label>Game *</label>
+                <select class="select2 form-control" name="game" id="game">
+                  <option value="">Select Game</option>
                   @foreach($games as $key=>$val)
-                  @if($val->events->count() > 0)
-                  <optgroup label="Game: {{ $val->name }}">
-                    @foreach($val->events as $key1=>$val1)
-                  <optgroup label=" &nbsp;&nbsp; Event: {{ $val1->name }}">
-                    @foreach($val1->teams as $key2=>$val2)
-                    <option value="{{ $val2->id }}" {{ ($val2->id == $row->team_id_1) ? 'selected' : '' }}>&nbsp;&nbsp;&nbsp; {{ $val2->name }}</option>
-                    @endforeach
-                  </optgroup>
+                    <option value="{{ $val->id }}" {{ ($game_selected->id == $val->id) ? 'selected' : '' }}>{{ $val->name }}</option>
                   @endforeach
-                  </optgroup>
-                  @endif
+                </select>
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <div class="form-group mb-3">
+                <label>Event *</label>
+                <select class="select2 form-control" name="event" id="event">
+                  <option value="">Select Event</option>
+                  @foreach($events as $key=>$val)
+                    <option value="{{ $val->id }}" {{ ($event_selected->id == $val->id) ? 'selected' : '' }}>{{ $val->name }}</option>
                   @endforeach
+                </select>
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <div class="form-group mb-3">
+                <label>Team 1 *</label>
+                <select class="select2 form-control teams" name="team_1" id="team_1">
+                  <option value="">Select Team 1</option>
+
+                  @foreach($teams as $key=>$val)
+                    <option value="{{ $val->id }}" {{ ($team1_selected->id == $val->id) ? 'selected' : '' }}>{{ $val->team->name }}</option>
+                  @endforeach
+
                 </select>
               </div>
             </div>
@@ -47,21 +63,13 @@
             <div class="col-sm-6">
               <div class="form-group mb-3">
                 <label>Team 2 *</label>
-                <select class="select2 form-control" name="team_2">
+                <select class="select2 form-control teams" name="team_2" id="team_2">
                   <option value="">Select Team 2</option>
-                  @foreach($games as $key=>$val)
-                  @if($val->events->count() > 0)
-                  <optgroup label="Game: {{ $val->name }}">
-                    @foreach($val->events as $key1=>$val1)
-                  <optgroup label=" &nbsp;&nbsp; Event:  {{ $val1->name }}">
-                    @foreach($val1->teams as $key2=>$val2)
-                    <option value="{{ $val2->id }}" {{ ($val2->id == $row->team_id_2) ? 'selected' : '' }}>&nbsp;&nbsp;&nbsp; {{ $val2->name }}</option>
-                    @endforeach
-                  </optgroup>
+
+                  @foreach($teams as $key=>$val)
+                    <option value="{{ $val->id }}" {{ ($team2_selected->id == $val->id) ? 'selected' : '' }}>{{ $val->team->name }}</option>
                   @endforeach
-                  </optgroup>
-                  @endif
-                  @endforeach
+
                 </select>
               </div>
             </div>
@@ -69,21 +77,13 @@
             <div class="col-sm-6">
               <div class="form-group mb-3">
                 <label>Stadium *</label>
-                <select class="select2 form-control" name="stadium">
+                <select class="select2 form-control stadium" name="stadium" id="stadium">
                   <option value="">Select Stadium</option>
-                  @foreach($gamesForStadium as $key=>$val)
-                  @if($val->events->count() > 0)
-                  <optgroup label="Game: {{ $val->name }}">
-                    @foreach($val->events as $key1=>$val1)
-                  <optgroup label=" &nbsp;&nbsp; Event: {{ $val1->name }}">
-                    @foreach($val1->stadiums as $key2=>$val2)
-                    <option value="{{ $val2->id }}"  {{ ($val2->id == $row->stadium_id) ? 'selected' : '' }}>&nbsp;&nbsp;&nbsp; {{ $val2->name }}</option>
-                    @endforeach
-                  </optgroup>
+
+                  @foreach($stadiums as $key=>$val)
+                    <option value="{{ $val->id }}" {{ ($stadium_selected->id == $val->id) ? 'selected' : '' }}>{{ $val->name }}</option>
                   @endforeach
-                  </optgroup>
-                  @endif
-                  @endforeach
+
                 </select>
               </div>
             </div>
@@ -130,5 +130,17 @@
 		},
     singleDatePicker: true
 	});
+
+  $('#game').on('change',function(){
+    let game_id = $(this).val();
+    $(".teams").find('option').remove().end().append($("<option></option>") .attr("value", '').text('Select Team')); 
+    getEventsBYGame(game_id,'event');
+  });
+
+  $('#event').on('change',function(){
+    let event_id = $(this).val();
+    getTeamsBYEvent(event_id,'teams');
+    getStadiumsByEvent(event_id,'stadium');
+  });
 </script>
 @endsection

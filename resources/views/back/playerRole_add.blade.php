@@ -22,7 +22,7 @@
             <div class="col-sm-6">
               <div class="form-group mb-3">
                 <label>Game *</label>
-                <select class="game form-control" name="game" id="game" width="50%">
+                <select class="game form-control" name="game" id="game">
                   <option value="">Select Game</option>
                   @foreach($games as $key=>$val)
                   <option value="{{ $val->id }}">{{ $val->name }}</option>

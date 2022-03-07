@@ -23,6 +23,30 @@
 
             <div class="col-sm-6">
               <div class="form-group mb-3">
+                <label>Game *</label>
+                <select class="select2 form-control" name="game" id="game">
+                  <option value="">Select Game</option>
+                  @foreach($games as $key=>$val)
+                    <option value="{{ $val->id }}" {{ (isset($game_selected->id) && ($game_selected->id == $val->id)) ? 'selected' : '' }}>{{ $val->name }}</option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <div class="form-group mb-3">
+                <label>Role *</label>
+                <select class="select2 form-control role" name="role" id="role">
+                  <option value="">Select Role</option>
+                  @foreach($playerRoles as $key=>$val)
+                    <option value="{{ $val->id }}" {{ ($row->player_role_id == $val->id) ? 'selected' : '' }}>{{ $val->name }}</option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <div class="form-group mb-3">
                 <label>Name *</label>
                 <input type="text" class="form-control" name="name" value="{{ $row->name }}">
               </div>
@@ -69,5 +93,12 @@
 <!-- <script src="{{ back_asset('js/pages/form-select-custom.js') }}"></script> -->
 <script>
   $("#game").select2();
+
+  $('#game').on('change',function(){
+    let game_id = $(this).val();
+    // $(".teams").find('option').remove().end().append($("<option></option>") .attr("value", '').text('Select Team')); 
+    getRoleByGame(game_id,'role');
+  });
+
 </script>
 @endsection

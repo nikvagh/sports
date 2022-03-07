@@ -38,4 +38,9 @@ class Event extends Model
     {
         return $this->hasMany(EventWallpaper::class);
     }
+
+    public function eventAwards()
+    {
+        return $this->hasMany(EventAward::class);
+    }
 }

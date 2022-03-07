@@ -114,4 +114,13 @@ class EventTeamPlayerController extends Controller
             })->make();
     }
 
+    public function eventTeamPlayersByEvent($event_id){
+        $eventTeamPlayers = EventTeamPlayer::select('event_team_players.*')
+                                            ->leftJoin('event_teams as et','et.id','=','event_team_players.event_team_id')
+                                            ->where('et.event_id',$event_id)
+                                            ->with('player')->get()->all();
+        $result['eventTeamPlayers'] = $eventTeamPlayers;
+        return response()->json(['status' => 200, 'title' => 'Success', 'result' => $result]);
+    }
+
 }

@@ -22,10 +22,32 @@
 
             <div class="col-sm-6">
               <div class="form-group mb-3">
+                <label>Game *</label>
+                <select class="select2 form-control" name="game" id="game">
+                  <option value="">Select Game</option>
+                  @foreach($games as $key=>$val)
+                    <option value="{{ $val->id }}">{{ $val->name }}</option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <div class="form-group mb-3">
+                <label>Role *</label>
+                <select class="select2 form-control role" name="role" id="role">
+                  <option value="">Select Role</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <div class="form-group mb-3">
                 <label>Name *</label>
                 <input type="text" class="form-control" name="name" value="">
               </div>
             </div>
+
             <div class="col-sm-6">
               <div class="row">
                 <div class="col-sm-10">
@@ -64,5 +86,12 @@
 <script src="{{ back_asset('js/plugins/select2.full.min.js') }}"></script>
 <script>
   $(".select2").select2();
+
+  $('#game').on('change',function(){
+    let game_id = $(this).val();
+    // $(".teams").find('option').remove().end().append($("<option></option>") .attr("value", '').text('Select Team')); 
+    getRoleByGame(game_id,'role');
+  });
+
 </script>
 @endsection

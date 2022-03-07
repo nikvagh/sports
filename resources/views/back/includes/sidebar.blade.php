@@ -37,7 +37,15 @@
                 <li class="nav-item"><a href="{{ url(admin().'/events') }}" class="nav-link "><span class="pcoded-micon"><i class="fas fa-trophy"></i></span><span class="pcoded-mtext">Events</span></a></li>
                 <li class="nav-item"><a href="{{ url(admin().'/stadiums') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-map-pin"></i></span><span class="pcoded-mtext">Stadiums</span></a></li>
                 <li class="nav-item"><a href="{{ url(admin().'/matches') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-minimize-2"></i></span><span class="pcoded-mtext">Matches</span></a></li>
-                <li class="nav-item"><a href="{{ url(admin().'/eventAwards') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-award"></i></span><span class="pcoded-mtext">Awards</span></a></li>
+
+                <li class="nav-item pcoded-hasmenu">
+                    <a href="#!" class="nav-link "><span class="pcoded-micon"><i class="fas fa-baseball-ball"></i></span><span class="pcoded-mtext">Awards</span></a>
+                    <ul class="pcoded-submenu">
+                        <li><a href="{{ url(admin().'/eventAwards') }}">Awards</a></li>
+                        <li><a href="{{ url(admin().'/eventAwardHolders') }}">Award Holders</a></li>
+                    </ul>
+                </li>
+
                 <li class="nav-item"><a href="{{ url(admin().'/eventWinners') }}" class="nav-link "><span class="pcoded-micon"><i class="fas fa-crown"></i></span><span class="pcoded-mtext">Winners</span></a></li>
                 <li class="nav-item"><a href="{{ url(admin().'/eventWallpapers') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-image"></i></span><span class="pcoded-mtext">Wallpapers</span></a></li>
                 <li class="nav-item"><a href="{{ url(admin().'/applications') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-smartphone"></i></span><span class="pcoded-mtext">Applications</span></a></li>

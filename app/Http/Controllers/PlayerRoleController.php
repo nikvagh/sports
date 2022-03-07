@@ -101,4 +101,10 @@ class PlayerRoleController extends Controller
             })->make();
     }
 
+    public function roleByGame($game_id){
+        $playerRoles = PlayerRole::where('game_id',$game_id)->get()->all();
+        $result['playerRoles'] = $playerRoles;
+        return response()->json(['status' => 200, 'title' => 'Success', 'result' => $result]);
+    }
+
 }

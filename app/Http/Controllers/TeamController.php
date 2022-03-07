@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\EventTeam;
 use App\Models\Team;
 use App\Models\Game;
 use App\Models\Player;
@@ -175,4 +176,11 @@ class TeamController extends Controller
         session()->flash('flash_s', $flash_s);
         return response()->json(['status' => 200, 'title' => $flash_s, 'result' => ['next' => url(admin() . '/' . $this->titles->viewPathPrefix)]]);
     }
+
+    public function teamsByEvent($event_id){
+        $teams = EventTeam::where('event_id',$event_id)->with('team')->get()->all();
+        $result['teams'] = $teams;
+        return response()->json(['status' => 200, 'title' => 'Success', 'result' => $result]);
+    }
+
 }

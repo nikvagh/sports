@@ -46,16 +46,6 @@ class Team extends Model
         return $this->hasMany(TeamPlayer::class);
     }
 
-    public function matches1()
-    {
-        return $this->hasMany(Matches::class,'team_id_1','id');
-    }
-
-    public function matches2()
-    {
-        return $this->hasMany(Matches::class,'team_id_2','id');
-    }
-
     public function eventAwards()
     {
         return $this->morphMany(EventAward::class, 'event_awardable');

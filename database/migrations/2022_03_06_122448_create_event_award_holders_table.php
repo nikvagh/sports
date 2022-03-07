@@ -15,10 +15,11 @@ class CreateEventAwardHoldersTable extends Migration
     {
         Schema::create('event_award_holders', function (Blueprint $table) {
             $table->id();
-            $table->integer('event_id');
+            $table->integer('event_award_id');
             $table->integer('event_team_player_id');
             $table->float('total');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

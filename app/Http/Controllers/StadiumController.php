@@ -122,4 +122,10 @@ class StadiumController extends Controller
                         <a oncLick="confirmDelete(' . $row->id . ',\'Stadium\')" class="btn btn-sm btn-danger" href="javascript:void(0);"><i class="feather icon-trash-2"></i> Delete</a>';
             })->make();
     }
+
+    public function stadiumsByEvent($event_id){
+        $stadiums = Stadium::where('event_id',$event_id)->get()->all();
+        $result['stadiums'] = $stadiums;
+        return response()->json(['status' => 200, 'title' => 'Success', 'result' => $result]);
+    }
 }

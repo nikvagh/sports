@@ -4,6 +4,9 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Event;
+use App\Models\EventAward;
+use App\Models\EventAwardHolder;
+use App\Models\EventPointTable;
 use App\Models\EventTeam;
 use App\Models\EventWallpaper;
 use App\Models\EventWinner;
@@ -13,6 +16,7 @@ use App\Models\Matches;
 use App\Models\Stadium;
 use App\Models\Team;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class ApiController extends Controller
@@ -61,9 +65,11 @@ class ApiController extends Controller
         extract(request()->all());
         // curr_date();
 
-        $matches = Matches::select('matches.*')->leftJoin('teams AS t1','t1.id','=','matches.team_id_1')
-                            ->leftJoin('teams AS t2','t2.id','=','matches.team_id_2')
-                            ->where('t1.event_id',$event_id)->whereDate('matches.match_time',curr_date())
+        $matches = Matches::select('matches.*')
+                            ->leftJoin('event_teams AS t1','t1.id','=','matches.event_team_id_1')
+                            ->leftJoin('event_teams AS t2','t2.id','=','matches.event_team_id_2')
+                            ->where('t1.event_id',$event_id)
+                            ->whereDate('matches.match_time',curr_date())
                             ->with('team1')
                             ->with('team2')
                             ->get()->all();
@@ -135,8 +141,72 @@ class ApiController extends Controller
         // curr_date();
 
         // where('event_id',$event_id)->
-        $highlights = Highlight::get()->all();
+        // DB::enableQueryLog();
+
+        $highlights = Highlight::select('highlights.*')
+                                ->leftJoin('matches as m','m.id','=','highlights.match_id')
+                                // ->leftJoin('event_teams as et','et.id','=','matches.event_team_id_1')
+
+                                ->leftJoin('event_teams AS et', function($join) {
+                                    $join->on('et.id', '=', 'm.event_team_id_1')
+                                        ->orOn('et.id', '=', 'm.event_team_id_2');
+                                })
+
+                                ->where('et.event_id',$event_id)
+                                ->get()->all();
+
+                                
+        // dd(DB::getQueryLog());
         $result['highlights'] = $highlights;
+        return response()->json(['status' => 200, 'title' => 'success', "result" => $result]);
+    }
+
+    public function point_table(){
+        $validator = Validator::make(request()->all(), [
+            'event_id' => 'required'
+        ]);
+        
+        if ($validator->fails()) {
+            return response()->json(['status' => 400, 'title' => $validator->errors()->first()]);
+        }
+
+        extract(request()->all());
+        // curr_date();
+
+        $pointTable = EventTeam::with('team')->with('eventPointTable')->get()->all();
+        $result['pointTable'] = $pointTable;
+        return response()->json(['status' => 200, 'title' => 'success', "result" => $result]);
+    }
+
+    public function award_list(){
+        $validator = Validator::make(request()->all(), [
+            'event_id' => 'required'
+        ]);
+        
+        if ($validator->fails()) {
+            return response()->json(['status' => 400, 'title' => $validator->errors()->first()]);
+        }
+        extract(request()->all());
+
+        $awards = EventAward::where('event_id',$event_id)->get()->all();
+        $result['awards'] = $awards;
+        return response()->json(['status' => 200, 'title' => 'success', "result" => $result]);
+    }
+
+    public function award_list_details(){
+        $validator = Validator::make(request()->all(), [
+            'slug' => 'required'
+        ]);
+        
+        if ($validator->fails()) {
+            return response()->json(['status' => 400, 'title' => $validator->errors()->first()]);
+        }
+        extract(request()->all());
+
+        $awards = EventAwardHolder::select('event_award_holders.*')
+                                ->leftJoin('event_awards as ea','ea.id','=','event_award_holders.event_award_id')->where('ea.slug',$slug)
+                                ->with('eventTeamPlayer.player')->get()->all();
+        $result['awards'] = $awards;
         return response()->json(['status' => 200, 'title' => 'success', "result" => $result]);
     }
     

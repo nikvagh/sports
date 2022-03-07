@@ -31,4 +31,18 @@ class EventTeam extends Model
     public function eventTeamPlayers(){
         return $this->hasMany(EventTeamPlayer::class);
     }
+
+    public function eventPointTable(){
+        return $this->hasOne(EventPointTable::class);
+    }
+
+    public function matches1()
+    {
+        return $this->hasMany(Matches::class,'event_team_id_1','id');
+    }
+
+    public function matches2()
+    {
+        return $this->hasMany(Matches::class,'event_team_id_2','id');
+    }
 }

@@ -1,6 +1,6 @@
 
 
-  const MODEL = 'players'; 
+  const MODEL = 'eventAwardHolders'; 
   var dtTable1;
   const list = () => {
     dtTable1 = $('#dtTable1').DataTable({
@@ -25,21 +25,20 @@
           name: 'id'
         },
         {
-          "render": function (data, type, row, meta) {
-            return '<img src="'+row.profileUrl+'" width="80"/>';
-          },
-          "orderable": false,
-          "searchable": false,
-          data:'profile',
-          name: 'profile'
+          data: 'event_award.event.name',
+          name: 'event_award.event.name'
         },
         {
-          data: 'name',
-          name: 'name'
+          data: 'event_award.title',
+          name: 'event_award.title'
         },
         {
-          data: 'player_role.name',
-          name: 'player_role.name'
+          data: 'event_team_player.player.name',
+          name: 'event_team_player.player.name'
+        },
+        {
+          data: 'total',
+          name: 'total'
         },
         {
           data: "action"

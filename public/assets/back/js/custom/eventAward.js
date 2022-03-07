@@ -33,6 +33,10 @@
           name: 'slug'
         },
         {
+          data: 'event.name',
+          name: 'event.name'
+        },
+        {
           data: "action"
         }
       ]
