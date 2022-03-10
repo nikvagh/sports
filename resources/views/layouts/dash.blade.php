@@ -52,7 +52,7 @@
         </div>
     </div>
 
-    <script src="{{ back_asset('js/vendor-all.min.js') }}"></script>
+    <script src="{{ back_asset('js/vendor-all.js') }}"></script>
     <script src="{{ back_asset('js/plugins/bootstrap.min.js') }}"></script>
     <script src="{{ back_asset('js/ripple.js') }}"></script>
     <script src="{{ back_asset('js/pcoded.min.js') }}"></script>

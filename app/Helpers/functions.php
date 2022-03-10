@@ -1,6 +1,8 @@
 <?php
 // use App\Models\Config;
 
+use App\Models\Config;
+
 if (!function_exists('curr_date')) {
     function curr_date()
     {
@@ -99,7 +101,7 @@ if (!function_exists('sys_config_all')) {
         $config_data = Config::get()->all();
         $result = array();
         foreach ($config_data as $val) {
-            $result[$val->option_var] = $val->option_val;
+            $result[$val->option] = $val->value;
         }
         return $result;
     }
@@ -108,7 +110,7 @@ if (!function_exists('sys_config_all')) {
 if (!function_exists('sys_config')) {
     function sys_config($option)
     {
-        $value = Config::select('option_val')->where('option_var', '=', $option)->get()->first()->option_val;
+        $value = Config::select('option')->where('value', '=', $option)->get()->first()->option_val;
         return $value;
     }
 }

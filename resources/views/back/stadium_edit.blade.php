@@ -23,17 +23,23 @@
 
             <div class="col-sm-6">
               <div class="form-group mb-3">
-                <label>Event *</label>
-                <select class="select2 form-control" name="event">
-                  <option value="">Select Event</option>
+                <label>Game *</label>
+                <select class="select2 form-control" name="game" id="game">
+                  <option value="">Select Game</option>
                   @foreach($games as $key=>$val)
-                  @if($val->events->count() > 0)
-                  <optgroup label="{{ $val->name }}">
-                    @foreach($val->events as $key1=>$val1)
-                    <option value="{{ $val1->id }}" {{ ($val1->id == $row->event_id) ? 'selected' : '' }}>{{ $val1->name }}</option>
-                    @endforeach
-                  </optgroup>
-                  @endif
+                    <option value="{{ $val->id }}" {{ ($game_selected->id == $val->id) ? 'selected' : '' }}>{{ $val->name }}</option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <div class="form-group mb-3">
+                <label>Event *</label>
+                <select class="select2 form-control" name="event" id="event">
+                  <option value="">Select Event</option>
+                  @foreach($events as $key=>$val)
+                    <option value="{{ $val->id }}" {{ ($row->event_id == $val->id) ? 'selected' : '' }}>{{ $val->name }}</option>
                   @endforeach
                 </select>
               </div>
@@ -87,5 +93,10 @@
 <!-- <script src="{{ back_asset('js/pages/form-select-custom.js') }}"></script> -->
 <script>
   $("#game").select2();
+  $('#game').on('change',function(){
+    let game_id = $(this).val();
+    // $(".teams").find('option').remove().end().append($("<option></option>") .attr("value", '').text('Select Team')); 
+    getEventsBYGame(game_id,'event');
+  });
 </script>
 @endsection

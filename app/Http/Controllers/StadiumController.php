@@ -62,7 +62,12 @@ class StadiumController extends Controller
     {
         $result['titles'] = $this->titles;
         $result['row'] = $stadium;
+
+        // $stadium = $stadium->event_id;
+        $result['game_selected'] = $game_selected = $stadium->event()->first()->game()->first();
+        
         $result['games'] = Game::get()->all();
+        $result['events'] = Event::where('game_id',$game_selected->id)->get()->all();
         return view(backView() . '.' . $this->titles->viewNamePrefix . '_edit')->with($result);
     }
 

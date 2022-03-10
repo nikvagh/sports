@@ -61,7 +61,13 @@ class eventWallpaperController extends Controller
     {
         $result['titles'] = $this->titles;
         $result['row'] = $eventWallpaper;
+
+        $result['game_selected'] = $game_selected = $eventWallpaper->event()->first()->game()->first();
+        
         $result['games'] = Game::get()->all();
+        $result['events'] = Event::where('game_id',$game_selected->id)->get()->all();
+        $result['games'] = Game::get()->all();
+
         return view(backView() . '.' . $this->titles->viewNamePrefix . '_edit')->with($result);
     }
 

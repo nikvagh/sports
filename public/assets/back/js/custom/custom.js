@@ -32,7 +32,6 @@
 // 			$("#"+frm).submit();
 // }
 
-
 const ADMIN = 'admin';
 
 function confirmDelete(id, item_name, action)

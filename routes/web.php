@@ -139,7 +139,10 @@ Route::group(['middleware' => 'auth','prefix' => admin()], function ($router) {
     Route::post('eventWinners/validation', [App\Http\Controllers\eventWinnerController::class,'validation']);
     Route::resource('eventWinners', App\Http\Controllers\eventWinnerController::class);
 
-    
+    Route::get('configs', [App\Http\Controllers\ConfigController::class,'index']);
+    Route::post('configs/validation', [App\Http\Controllers\ConfigController::class,'validation']);
+    Route::post('configs/update', [App\Http\Controllers\ConfigController::class,'update']);
+    // Route::resource('configs', App\Http\Controllers\ConfigController::class);
 });
 
 
