@@ -29,6 +29,16 @@ class EventAward extends Model
 
     public function eventAwardHolders()
     {
-        return $this->belongsTo(EventAwardHolder::class);
+        return $this->hasMany(EventAwardHolder::class);
+    }
+
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($row) {
+            foreach($row->eventAwardHolders as $val) {
+                $val->delete();
+            }
+        });
     }
 }

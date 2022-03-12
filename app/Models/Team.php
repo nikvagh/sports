@@ -50,5 +50,18 @@ class Team extends Model
     {
         return $this->morphMany(EventAward::class, 'event_awardable');
     }
+
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($row) {
+            foreach($row->eventTeams as $val) {
+                $val->delete();
+            }
+            foreach($row->TeamPlayer as $val) {
+                $val->delete();
+            }
+        });
+    }
     
 }

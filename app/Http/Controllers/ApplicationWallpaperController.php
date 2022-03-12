@@ -86,10 +86,6 @@ class ApplicationWallpaperController extends Controller
 
     public function destroy(ApplicationWallpaper $applicationWallpaper)
     {
-        if(File::exists(ApplicationWallpaper::wallpaperLocation().'/'.$applicationWallpaper->wallpaper)){
-            File::delete(ApplicationWallpaper::wallpaperLocation().'/'.$applicationWallpaper->wallpaper);
-        }
-
         $applicationWallpaper->delete();
         $flash_s = 'Data deleted successfully!';
         return response()->json(['status' => 200, 'title' => $flash_s]);
@@ -99,11 +95,11 @@ class ApplicationWallpaperController extends Controller
     {
         $validationData = [
             'application' => 'required',
-            'wallpaper' => 'required',
+            // 'wallpaper' => 'required',
         ];
-        // if(request()->action == 'update'){
-        //     $validationData['wallpaper'] = 'required';
-        // }
+        if(request()->action == 'create'){
+            $validationData['wallpaper'] = 'required';
+        }
 
         $validator = Validator::make(request()->all(), $validationData);
         if ($validator->fails()) {

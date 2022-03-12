@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\File;
 
 class ApplicationVideo extends Model
 {
@@ -33,5 +34,16 @@ class ApplicationVideo extends Model
 
     public function application(){
         return $this->belongsTo(Application::class);
+    }
+
+    public function delete(){
+        $this->assetDelete();
+        parent::delete();
+    }
+
+    public function assetDelete(){
+        if(File::exists(ApplicationVideo::wallpaperLocation().'/'.$this->wallpaper)){
+            File::delete(ApplicationVideo::wallpaperLocation().'/'.$this->wallpaper);
+        }
     }
 }

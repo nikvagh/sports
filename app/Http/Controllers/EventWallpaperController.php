@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
-class eventWallpaperController extends Controller
+class EventWallpaperController extends Controller
 {
     public function __construct()
     {
@@ -95,10 +95,6 @@ class eventWallpaperController extends Controller
 
     public function destroy(EventWallpaper $eventWallpaper)
     {
-        if(File::exists(EventWallpaper::wallpaperLocation().'/'.$eventWallpaper->wallpaper)){
-            File::delete(EventWallpaper::wallpaperLocation().'/'.$eventWallpaper->wallpaper);
-        }
-
         $eventWallpaper->delete();
         $flash_s = 'Data deleted successfully!';
         return response()->json(['status' => 200, 'title' => $flash_s]);

@@ -30,4 +30,17 @@ class Game extends Model
     {
         return $this->hasMany(PlayerRole::class);
     }
+
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($row) {
+            foreach($row->events as $val) {
+                $val->delete();
+            }
+            foreach($row->playerRoles as $val) {
+                $val->delete();
+            }
+        });
+    }
 }

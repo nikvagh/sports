@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
+Route::get('apiToken', [App\Http\Controllers\api\ApiController::class, 'apiToken']);
 
 Route::group(['middleware' => ['authCheckManual']], function() {
     Route::get('games', [App\Http\Controllers\api\ApiController::class, 'games']);
@@ -31,4 +31,8 @@ Route::group(['middleware' => ['authCheckManual']], function() {
     Route::post('point_table', [App\Http\Controllers\api\ApiController::class, 'point_table']);
     Route::post('award_list', [App\Http\Controllers\api\ApiController::class, 'award_list']);
     Route::post('award_list_details', [App\Http\Controllers\api\ApiController::class, 'award_list_details']);
+    Route::post('appWallpapers', [App\Http\Controllers\api\ApiController::class, 'appWallpapers']);
+    Route::post('appVideos', [App\Http\Controllers\api\ApiController::class, 'appVideos']);
+    Route::post('saveDeviceToken', [App\Http\Controllers\api\ApiController::class, 'saveDeviceToken']);
+    Route::post('removeDeviceToken', [App\Http\Controllers\api\ApiController::class, 'removeDeviceToken']);
 });

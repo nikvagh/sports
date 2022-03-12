@@ -45,4 +45,23 @@ class EventTeam extends Model
     {
         return $this->hasMany(Matches::class,'event_team_id_2','id');
     }
+
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($row) {
+            foreach($row->eventTeamPlayers as $val) {
+                $val->delete();
+            }
+            foreach($row->eventPointTable as $val) {
+                $val->delete();
+            }
+            foreach($row->matches1 as $val) {
+                $val->delete();
+            }
+            foreach($row->matches2 as $val) {
+                $val->delete();
+            }
+        });
+    }
 }

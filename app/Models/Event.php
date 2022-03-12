@@ -43,4 +43,20 @@ class Event extends Model
     {
         return $this->hasMany(EventAward::class);
     }
+
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($row) {
+            foreach($row->stadiums as $val) {
+                $val->delete();
+            }
+            foreach($row->eventWallpapers as $val) {
+                $val->delete();
+            }
+            foreach($row->eventAwards as $val) {
+                $val->delete();
+            }
+        });
+    }
 }

@@ -3,6 +3,11 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Application;
+use App\Models\ApplicationVideo;
+use App\Models\ApplicationWallpaper;
+use App\Models\Config;
+use App\Models\DeviceToken;
 use App\Models\Event;
 use App\Models\EventAward;
 use App\Models\EventAwardHolder;
@@ -21,6 +26,12 @@ use Illuminate\Support\Facades\Validator;
 
 class ApiController extends Controller
 {
+
+    public function apiToken(){
+        $result['configs'] = Config::where('name','api_token')->get()->first();
+        return response()->json(['status' => 200, 'title' => 'success', "result" => $result]);
+    }
+
     public function games(){
         $result['games'] = Game::all();
         return response()->json(['status' => 200, 'title' => 'success', "result" => $result]);
@@ -89,7 +100,7 @@ class ApiController extends Controller
         extract(request()->all());
         // curr_date();
 
-        $EventTeams = EventTeam::where('event_id',$event_id)->with('team')->with('eventTeamPlayers')->get()->all();
+        $EventTeams = EventTeam::where('event_id',$event_id)->with('team')->with('eventTeamPlayers')->with('eventTeamPlayers.player')->with('eventTeamPlayers.player.playerRole')->get()->all();
         $result['teams'] = $EventTeams;
         return response()->json(['status' => 200, 'title' => 'success', "result" => $result]);
     }
@@ -208,6 +219,89 @@ class ApiController extends Controller
                                 ->with('eventTeamPlayer.player')->get()->all();
         $result['awards'] = $awards;
         return response()->json(['status' => 200, 'title' => 'success', "result" => $result]);
+    }
+
+    public function saveDeviceToken(){
+        $validator = Validator::make(request()->all(), [
+            'token' => 'required',
+            'package_name' => 'required'
+        ]);
+        
+        if ($validator->fails()) {
+            return response()->json(['status' => 400, 'title' => $validator->errors()->first()]);
+        }
+
+        extract(request()->all());
+        
+        $isApplication = Application::where('package_name',$package_name)->get()->first();
+        if(!$isApplication){
+            return response()->json(['status' => 310, 'title' => 'application not found with this provider name']);
+        }
+        
+        $isDeviceToken = DeviceToken::where('application_id',$isApplication->id)->where('token',$token)->get()->first();
+        if(!$isDeviceToken){
+            DeviceToken::insert(
+                ['token'=>$token,'application_id'=>$isApplication->id]
+            );
+        }
+        return response()->json(['status' => 200, 'title' => 'success']);
+    }
+
+    public function removeDeviceToken(){
+        $validator = Validator::make(request()->all(), [
+            'token' => 'required',
+            'package_name' => 'required'
+        ]);
+        
+        if ($validator->fails()) {
+            return response()->json(['status' => 400, 'title' => $validator->errors()->first()]);
+        }
+        
+        extract(request()->all());
+
+        $isApplication = Application::where('package_name',$package_name)->get()->first();
+        if($isApplication){
+            // return response()->json(['status' => 310, 'title' => 'application not found with this provider name']);
+            $isDeviceToken = DeviceToken::where('token',$token)->where('application_id',$isApplication->id)->delete();
+        }
+
+        return response()->json(['status' => 200, 'title' => 'success']);
+    }
+
+    public function appWallpapers(){
+        $validator = Validator::make(request()->all(), [
+            'package_name' => 'required'
+        ]);
+        
+        if ($validator->fails()) {
+            return response()->json(['status' => 400, 'title' => $validator->errors()->first()]);
+        }
+
+        extract(request()->all());
+        $result['wallpapers'] = ApplicationWallpaper::with([
+            'application' => function($q) use ($package_name) {
+                $q->where('package_name',$package_name);
+            }
+          ])->get()->all();
+        return response()->json(['status' => 200, 'title' => 'success', 'result' => $result]);
+    }
+
+    public function appVideos(){
+        $validator = Validator::make(request()->all(), [
+            'package_name' => 'required'
+        ]);
+        
+        if ($validator->fails()) {
+            return response()->json(['status' => 400, 'title' => $validator->errors()->first()]);
+        }
+
+        extract(request()->all());
+        $result['videos'] = ApplicationVideo::with([
+            'application' => function($q) use ($package_name) {
+                $q->where('package_name',$package_name);
+            }
+          ])->get()->all();
+        return response()->json(['status' => 200, 'title' => 'success', 'result' => $result]);
     }
     
 }

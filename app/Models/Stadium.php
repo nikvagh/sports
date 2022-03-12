@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\File;
 
 class Stadium extends Model
 {
@@ -45,4 +46,16 @@ class Stadium extends Model
     {
         return $this->belongsTo(Matches::class);
     }
+
+    public function delete(){
+        $this->assetDelete();
+        parent::delete();
+    }
+
+    public function assetDelete(){
+        if(File::exists(Stadium::imageLocation().'/'.$this->image)){
+            File::delete(Stadium::imageLocation().'/'.$this->image);
+        }
+    }
+
 }

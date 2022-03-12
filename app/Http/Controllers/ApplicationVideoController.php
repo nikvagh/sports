@@ -85,10 +85,6 @@ class ApplicationVideoController extends Controller
 
     public function destroy(ApplicationVideo $applicationVideo)
     {
-        if(File::exists(ApplicationVideo::videoLocation().'/'.$applicationVideo->video)){
-            File::delete(ApplicationVideo::videoLocation().'/'.$applicationVideo->video);
-        }
-
         $applicationVideo->delete();
         $flash_s = 'Data deleted successfully!';
         return response()->json(['status' => 200, 'title' => $flash_s]);
@@ -98,11 +94,11 @@ class ApplicationVideoController extends Controller
     {
         $validationData = [
             'application' => 'required',
-            'video' => 'required',
+            // 'video' => 'required',
         ];
-        // if(request()->action == 'update'){
-        //     $validationData['video'] = 'required';
-        // }
+        if(request()->action == 'create'){
+            $validationData['video'] = 'required';
+        }
 
         $validator = Validator::make(request()->all(), $validationData);
         if ($validator->fails()) {

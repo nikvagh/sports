@@ -49,4 +49,14 @@ class Player extends Model
         return $this->belongsTo(PlayerRole::class);
     }
 
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($row) {
+            foreach($row->teamPlayers as $val) {
+                $val->delete();
+            }
+        });
+    }
+
 }

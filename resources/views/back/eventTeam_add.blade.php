@@ -55,6 +55,26 @@
               </div>
             </div>
 
+            <div class="col-sm-6">
+              <div class="form-group mb-3">
+                <label>Coach *</label>
+                <input type="text" class="form-control" name="coach" value="">
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <div class="form-group mb-3">
+                <label>Owner *</label>
+                <input type="text" class="form-control" name="owner" value="">
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <div class="form-group mb-3">
+                <label>Caption *</label>
+                <input type="text" class="form-control" name="caption" value="">
+              </div>
+            </div>
             
           </div>
         </form>
@@ -79,14 +99,12 @@
 <!-- form-select-custom Js -->
 <!-- <script src="{{ back_asset('js/pages/form-select-custom.js') }}"></script> -->
 <script>
-  $("#game").select2();
-  $("#event").select2();
-  $("#team").select2();
+  // $(".select2").select2();
 
-  $('#game').on('change',function(){
-    let game_id = $(this).val();
-    getEventsBYGame(game_id,'event');
-  });
+  // $('#team').on('change',function(){
+  //   let team_id = $(this).val();
+  //   getPlayersByEvent(team_id,'caption');
+  // });
 
 </script>
 @endsection

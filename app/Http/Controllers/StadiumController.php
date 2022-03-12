@@ -96,9 +96,6 @@ class StadiumController extends Controller
 
     public function destroy(Stadium $stadium)
     {
-        if(File::exists(Stadium::imageLocation().'/'.$stadium->image)){
-            File::delete(Stadium::imageLocation().'/'.$stadium->image);
-        }
         $stadium->delete();
         $flash_s = 'Data deleted successfully!';
         return response()->json(['status' => 200, 'title' => $flash_s]);

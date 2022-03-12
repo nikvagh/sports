@@ -25,8 +25,10 @@ class EventTeamPlayer extends Model
         $breadCrumbTitle .= ' - Event Team Players';
         
         if($event_team_id > 0){
-            $eventTeam = eventTeam::with('team')->find($event_team_id);
-            $breadCrumbTitle = $eventTeam->team->name.' - Event Team Players';
+            $eventTeam = EventTeam::with('team')->find($event_team_id);
+            if($eventTeam){
+                $breadCrumbTitle = $eventTeam->team->name.' - Event Team Players';
+            }
         }else{
             $breadCrumbTitle .= 'Event Team Players';
         }

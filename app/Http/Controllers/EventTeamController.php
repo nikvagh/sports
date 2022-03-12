@@ -42,6 +42,9 @@ class EventTeamController extends Controller
         $eventTeam = new EventTeam;
         $eventTeam->team_id = $request->team;
         $eventTeam->event_id = $request->event_id;
+        $eventTeam->coach = $request->coach;
+        $eventTeam->owner = $request->owner;
+        $eventTeam->caption = $request->owner;
 
         $eventTeam->save();
 
@@ -68,6 +71,9 @@ class EventTeamController extends Controller
     public function update(Request $request,$event_id, EventTeam $eventTeam)
     {
         $eventTeam->team_id = $request->team;
+        $eventTeam->coach = $request->coach;
+        $eventTeam->owner = $request->owner;
+        $eventTeam->caption = $request->owner;
         $eventTeam->save();
         
         $flash_s = 'Data saved successfully!';
@@ -89,6 +95,9 @@ class EventTeamController extends Controller
             // 'game' => 'required',
             // 'event' => 'required',
             'team' => 'required',
+            'coach' => 'required',
+            'owner' => 'required',
+            'caption' => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json(['status' => 400, 'title' => 'Errors', 'result' => $validator->errors()->all()]);
@@ -99,14 +108,11 @@ class EventTeamController extends Controller
 
     public function list_data(Request $request)
     {
-
         //  echo "<pre>";print_r($request);
         // exit;
 
         $data = EventTeam::with('team')->where('event_id',$request->event_id)->get()->all();
 
-       
-        
         return datatables($data)
             ->addColumn('action', function ($row) {
                 return '<a class="btn btn-sm btn-info" href="'.$this->titles->viewPathPrefix.'/'.$row->id.'/edit/"><i class="feather icon-edit"></i> Edit</a>

@@ -24,4 +24,17 @@ class Application extends Model
     {
         return $this->hasMany(ApplicationVideo::class);
     }
+
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($row) {
+            foreach($row->applicationWallpapers as $val) {
+                $val->delete();
+            }
+            foreach($row->applicationVideos as $val) {
+                $val->delete();
+            }
+        });
+    }
 }

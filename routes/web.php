@@ -32,7 +32,7 @@ Route::get('/view_cache', function() {
     Artisan::call('view:clear');
 });
 Route::get('/route_clear', function() {
-    Artisan::call('route:clear');
+    Artisan::call('route:cache');
 });
 Route::get('/config_cache', function() {
     Artisan::call('config:cache');
@@ -119,9 +119,9 @@ Route::group(['middleware' => 'auth','prefix' => admin()], function ($router) {
     Route::post('eventAwardHolders/validation', [App\Http\Controllers\EventAwardHolderController::class,'validation']);
     Route::resource('eventAwardHolders', App\Http\Controllers\EventAwardHolderController::class);
 
-    Route::get('eventWallpapers/list_data', [App\Http\Controllers\eventWallpaperController::class, 'list_data']);
-    Route::post('eventWallpapers/validation', [App\Http\Controllers\eventWallpaperController::class,'validation']);
-    Route::resource('eventWallpapers', App\Http\Controllers\eventWallpaperController::class);
+    Route::get('eventWallpapers/list_data', [App\Http\Controllers\EventWallpaperController::class, 'list_data']);
+    Route::post('eventWallpapers/validation', [App\Http\Controllers\EventWallpaperController::class,'validation']);
+    Route::resource('eventWallpapers', App\Http\Controllers\EventWallpaperController::class);
 
     Route::get('applications/list_data', [App\Http\Controllers\ApplicationController::class, 'list_data']);
     Route::post('applications/validation', [App\Http\Controllers\ApplicationController::class,'validation']);
@@ -135,9 +135,9 @@ Route::group(['middleware' => 'auth','prefix' => admin()], function ($router) {
     Route::post('applicationVideos/validation', [App\Http\Controllers\ApplicationVideoController::class,'validation']);
     Route::resource('applicationVideos', App\Http\Controllers\ApplicationVideoController::class);
 
-    Route::get('eventWinners/list_data', [App\Http\Controllers\eventWinnerController::class, 'list_data']);
-    Route::post('eventWinners/validation', [App\Http\Controllers\eventWinnerController::class,'validation']);
-    Route::resource('eventWinners', App\Http\Controllers\eventWinnerController::class);
+    Route::get('eventWinners/list_data', [App\Http\Controllers\EventWinnerController::class, 'list_data']);
+    Route::post('eventWinners/validation', [App\Http\Controllers\EventWinnerController::class,'validation']);
+    Route::resource('eventWinners', App\Http\Controllers\EventWinnerController::class);
 
     Route::get('configs', [App\Http\Controllers\ConfigController::class,'index']);
     Route::post('configs/validation', [App\Http\Controllers\ConfigController::class,'validation']);

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\File;
 
 class Highlight extends Model
 {
@@ -35,4 +36,14 @@ class Highlight extends Model
         return $this->belongsTo(Matches::class,'match_id','id');
     }
 
+    public function delete(){
+        $this->assetDelete();
+        parent::delete();
+    }
+
+    public function assetDelete(){
+        if(File::exists(Highlight::videoLocation().'/'.$this->video)){
+            File::delete(Highlight::videoLocation().'/'.$this->video);
+        }
+    }
 }

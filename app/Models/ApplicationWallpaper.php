@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\File;
 
 class ApplicationWallpaper extends Model
 {
@@ -38,4 +39,16 @@ class ApplicationWallpaper extends Model
     public function application(){
         return $this->belongsTo(Application::class);
     }
+
+    public function delete(){
+        $this->assetDelete();
+        parent::delete();
+    }
+
+    public function assetDelete(){
+        if(File::exists(ApplicationWallpaper::wallpaperLocation().'/'.$this->wallpaper)){
+            File::delete(ApplicationWallpaper::wallpaperLocation().'/'.$this->wallpaper);
+        }
+    }
+    
 }

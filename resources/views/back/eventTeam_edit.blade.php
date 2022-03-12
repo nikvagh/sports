@@ -18,7 +18,7 @@
       <div class="card-body">
         <form id="form">
           @csrf
-
+          <div class="row">
             <div class="col-sm-6">
               <div class="form-group mb-3">
                 <label>Team *</label>
@@ -30,6 +30,28 @@
                 </select>
               </div>
             </div>
+
+            <div class="col-sm-6">
+              <div class="form-group mb-3">
+                <label>Coach *</label>
+                <input type="text" class="form-control" name="coach" value="{{ $row->coach }}">
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <div class="form-group mb-3">
+                <label>Owner *</label>
+                <input type="text" class="form-control" name="owner" value="{{ $row->coach }}">
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <div class="form-group mb-3">
+                <label>Caption *</label>
+                <input type="text" class="form-control" name="caption" value="{{ $row->caption }}">
+              </div>
+            </div>
+          </div>
           
         </form>
       </div>
@@ -53,6 +75,6 @@
 <!-- form-select-custom Js -->
 <!-- <script src="{{ back_asset('js/pages/form-select-custom.js') }}"></script> -->
 <script>
-  $("#game").select2();
+  $("#caption").select2();
 </script>
 @endsection

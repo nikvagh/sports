@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\File;
 
 class EventWallpaper extends Model
 {
@@ -38,5 +39,16 @@ class EventWallpaper extends Model
     public function event()
     {
         return $this->belongsTo(Event::class);
+    }
+
+    public function delete(){
+        $this->assetDelete();
+        parent::delete();
+    }
+
+    public function assetDelete(){
+        if(File::exists(EventWallpaper::wallpaperLocation().'/'.$this->wallpaper)){
+            File::delete(EventWallpaper::wallpaperLocation().'/'.$this->wallpaper);
+        }
     }
 }

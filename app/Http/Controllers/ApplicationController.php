@@ -32,7 +32,7 @@ class ApplicationController extends Controller
 
         $application = new Application;
         $application->name = $request->name;
-
+        $application->package_name = $request->package_name;
         $application->save();
 
         $flash_s = 'Data saved successfully!';
@@ -57,6 +57,7 @@ class ApplicationController extends Controller
         extract(request()->all());
 
         $application->name = $request->name;
+        $application->package_name = $request->package_name;
         $application->save();
 
         $flash_s = 'Data saved successfully!';
@@ -75,6 +76,7 @@ class ApplicationController extends Controller
     {
         $validator = Validator::make(request()->all(), [
             'name' => 'required',
+            'package_name' => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json(['status' => 400, 'title' => 'Errors', 'result' => $validator->errors()->all()]);

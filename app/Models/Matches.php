@@ -36,4 +36,14 @@ class Matches extends Model
     {
         return $this->hasOne(Highlight::class,'match_id','id');
     }
+
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($row) {
+            if($row->highlight){
+                $row->highlight->delete();
+            }
+        });
+    }
 }
