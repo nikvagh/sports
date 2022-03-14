@@ -143,6 +143,14 @@ Route::group(['middleware' => 'auth','prefix' => admin()], function ($router) {
     Route::post('configs/validation', [App\Http\Controllers\ConfigController::class,'validation']);
     Route::post('configs/update', [App\Http\Controllers\ConfigController::class,'update']);
     // Route::resource('configs', App\Http\Controllers\ConfigController::class);
+
+    Route::get('notifications', [App\Http\Controllers\NotificationController::class,'index']);
+    Route::post('notifications/validation', [App\Http\Controllers\NotificationController::class,'validation']);
+    Route::post('notifications/update', [App\Http\Controllers\NotificationController::class,'update']);
+});
+
+Route::get('notification', function () {
+    return view('notification');
 });
 
 

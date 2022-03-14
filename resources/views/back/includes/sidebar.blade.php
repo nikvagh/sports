@@ -58,12 +58,13 @@
                 <li class="nav-item {{ (request()->is(admin().'/eventWinners*')) ? 'active' : '' }}"><a href="{{ url(admin().'/eventWinners') }}" class="nav-link "><span class="pcoded-micon"><i class="fas fa-crown"></i></span><span class="pcoded-mtext">Winners</span></a></li>
                 <li class="nav-item {{ (request()->is(admin().'/eventWallpapers*')) ? 'active' : '' }}"><a href="{{ url(admin().'/eventWallpapers') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-image"></i></span><span class="pcoded-mtext">Wallpapers</span></a></li>
                 
-                <li class="nav-item pcoded-hasmenu {{ (request()->is(admin().'/applications*') || request()->is(admin().'/applicationWallpapers*') || request()->is(admin().'/applicationVideos*')) ? 'active pcoded-trigger' : '' }}">
+                <li class="nav-item pcoded-hasmenu {{ (request()->is(admin().'/applications*') || request()->is(admin().'/applicationWallpapers*') || request()->is(admin().'/applicationVideos*') || request()->is(admin().'/notifications*')) ? 'active pcoded-trigger' : '' }}">
                     <a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-smartphone"></i></span><span class="pcoded-mtext">Applications</span></a>
                     <ul class="pcoded-submenu">
                         <li class="{{ (request()->is(admin().'/applications*')) ? 'active' : '' }}"><a href="{{ url(admin().'/applications') }}">Applications</a></li>
-                        <li class="{{ (request()->is(admin().'/applicationWallpapers*')) ? 'active' : '' }}"><a href="{{ url(admin().'/applicationWallpapers') }}">Application Wallpaper</a></li>
-                        <li class="{{ (request()->is(admin().'/applicationVideos*')) ? 'active' : '' }}"><a href="{{ url(admin().'/applicationVideos') }}">Application Videos</a></li>
+                        <li class="{{ (request()->is(admin().'/applicationWallpapers*')) ? 'active' : '' }}"><a href="{{ url(admin().'/applicationWallpapers') }}">Wallpaper</a></li>
+                        <li class="{{ (request()->is(admin().'/applicationVideos*')) ? 'active' : '' }}"><a href="{{ url(admin().'/applicationVideos') }}">Videos</a></li>
+                        <li class="{{ (request()->is(admin().'/notifications*')) ? 'active' : '' }}"><a href="{{ url(admin().'/notifications') }}">Notifications</a></li>
                     </ul>
                 </li>
 

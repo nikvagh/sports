@@ -25,6 +25,11 @@ class Application extends Model
         return $this->hasMany(ApplicationVideo::class);
     }
 
+    public function deviceTokens()
+    {
+        return $this->hasMany(DeviceToken::class);
+    }
+
     public static function boot() {
         parent::boot();
 
