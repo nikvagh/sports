@@ -53,9 +53,10 @@ class EventTeam extends Model
             foreach($row->eventTeamPlayers as $val) {
                 $val->delete();
             }
-            foreach($row->eventPointTable as $val) {
-                $val->delete();
-            }
+            // foreach($row->eventPointTable as $val) {
+            //     $val->delete();
+            // }
+            $row->eventPointTable->delete();
             foreach($row->matches1 as $val) {
                 $val->delete();
             }

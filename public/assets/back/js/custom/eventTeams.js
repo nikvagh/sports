@@ -34,7 +34,11 @@
         },
         {
           "render": function (data, type, row, meta) {
-            return '<img src="'+row.team.logoUrl+'" width="80"/>';
+            if(row.team){
+              return '<img src="'+row.team.logoUrl+'" width="80"/>';
+            }else{
+              return '';
+            }
           },
           "orderable": false,
           "searchable": false,

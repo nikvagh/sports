@@ -55,10 +55,11 @@ class Team extends Model
         parent::boot();
 
         static::deleting(function($row) {
+
             foreach($row->eventTeams as $val) {
                 $val->delete();
             }
-            foreach($row->TeamPlayer as $val) {
+            foreach($row->teamPlayers as $val) {
                 $val->delete();
             }
         });
