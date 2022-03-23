@@ -43,6 +43,11 @@ class Event extends Model
     {
         return $this->hasMany(EventAward::class);
     }
+    
+    public function eventTeams()
+    {
+        return $this->hasMany(EventTeam::class);
+    }
 
     public static function boot() {
         parent::boot();
@@ -55,6 +60,9 @@ class Event extends Model
                 $val->delete();
             }
             foreach($row->eventAwards as $val) {
+                $val->delete();
+            }
+            foreach($row->eventTeams as $val) {
                 $val->delete();
             }
         });

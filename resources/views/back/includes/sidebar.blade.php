@@ -48,7 +48,7 @@
                 <li class="nav-item {{ (request()->is(admin().'/matches*')) ? 'active' : '' }}"><a href="{{ url(admin().'/matches') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-minimize-2"></i></span><span class="pcoded-mtext">Matches</span></a></li>
 
                 <li class="nav-item pcoded-hasmenu {{ (request()->is(admin().'/eventAwards*') || request()->is(admin().'/eventAwardHolders*')) ? 'active pcoded-trigger' : '' }}">
-                    <a href="#!" class="nav-link "><span class="pcoded-micon"><i class="fas fa-baseball-ball"></i></span><span class="pcoded-mtext">Awards</span></a>
+                    <a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-award"></i></span><span class="pcoded-mtext">Awards</span></a>
                     <ul class="pcoded-submenu">
                         <li class="{{ (request()->is(admin().'/eventAwards*')) ? 'active' : '' }}"><a href="{{ url(admin().'/eventAwards') }}">Awards</a></li>
                         <li class="{{ (request()->is(admin().'/eventAwardHolders*')) ? 'active' : '' }}"><a href="{{ url(admin().'/eventAwardHolders') }}">Award Holders</a></li>

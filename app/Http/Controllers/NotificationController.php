@@ -77,6 +77,11 @@ class NotificationController extends Controller
         $notification->title = $request->title;
         $notification->description = $request->description;
         $notification->deviceTokens = $deviceTokens;
+
+        if($deviceTokens && !empty($deviceTokens)){
+            $notification = array('title' => $notification->title, 'body' =>  $notification->description , 'badge'=>$notification->icon,'image'=>$notification->icon );
+            $this->sendNotificationMult($deviceTokens,$notification);
+        }
         
         // echo "<pre>";
         // print_r($notification);
@@ -128,5 +133,35 @@ class NotificationController extends Controller
                 return '<a class="btn btn-sm btn-info" href="' . $this->titles->viewPathPrefix . '/' . $row->id . '/edit/"><i class="feather icon-edit"></i> Edit</a>
                         <a oncLick="confirmDelete(' . $row->id . ',\'Notification\')" class="btn btn-sm btn-danger" href="javascript:void(0);"><i class="feather icon-trash-2"></i> Delete</a>';
             })->make();
+    }
+
+    public function sendNotificationMult($tokens,$notification,$data=null){
+
+        $FCM_SERVER_KEY = env('FCM_SERVER_KEY');
+        $fields = array(
+            'registration_ids' => $tokens,
+            'notification'=>$notification
+        );
+        $headers = array(
+            'Authorization: key=' . $FCM_SERVER_KEY,
+            'Content-Type: application/json'
+        );  
+
+        if($data != ""){
+            $fields['data'] = $data;
+        }  
+
+        $ch = curl_init();
+        curl_setopt( $ch,CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send' );
+        curl_setopt( $ch,CURLOPT_POST, true );
+        curl_setopt( $ch,CURLOPT_HTTPHEADER, $headers );
+        curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
+        curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false );
+        curl_setopt( $ch,CURLOPT_POSTFIELDS, json_encode( $fields ) );
+        $result = curl_exec( $ch );
+        curl_close( $ch );
+       
+        return $result;
+
     }
 }

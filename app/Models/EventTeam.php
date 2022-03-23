@@ -23,6 +23,9 @@ class EventTeam extends Model
         }
         return (object) $title;
     }
+    public function event(){
+        return $this->belongsTo(Event::class);
+    }
 
     public function team(){
         return $this->belongsTo(Team::class);
@@ -56,7 +59,9 @@ class EventTeam extends Model
             // foreach($row->eventPointTable as $val) {
             //     $val->delete();
             // }
-            $row->eventPointTable->delete();
+            if($row->eventPointTable){
+                $row->eventPointTable->delete();
+            }
             foreach($row->matches1 as $val) {
                 $val->delete();
             }
