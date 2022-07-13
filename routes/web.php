@@ -44,7 +44,7 @@ Route::get('/storage_link', function() {
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
 
-Auth::routes();
+Auth::routes(['register' => false,]);
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::group(['middleware' => 'auth','prefix' => admin()], function ($router) {
@@ -61,6 +61,10 @@ Route::group(['middleware' => 'auth','prefix' => admin()], function ($router) {
     Route::get('games/list_data', [App\Http\Controllers\GameController::class, 'list_data']);
     Route::resource('games', App\Http\Controllers\GameController::class);
     Route::post('games/validation', [App\Http\Controllers\GameController::class,'validation']);
+
+    Route::get('users/list_data', [App\Http\Controllers\UserController::class, 'list_data']);
+    Route::resource('users', App\Http\Controllers\UserController::class);
+    Route::post('users/validation', [App\Http\Controllers\UserController::class,'validation']);
 
     Route::get('playerRoles/list_data', [App\Http\Controllers\PlayerRoleController::class, 'list_data']);
     Route::post('playerRoles/validation', [App\Http\Controllers\PlayerRoleController::class,'validation']);

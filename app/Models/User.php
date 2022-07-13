@@ -41,4 +41,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public static function titles(){
+        return (object) ['title'=>'Users','viewPathPrefix'=>'users','viewNamePrefix'=>'user','breadCrumbTitle'=>'Users','titleSingular'=>'User'];
+    }
 }
